@@ -178,6 +178,46 @@ namespace WpfCronExpressionUI
 
         #endregion
 
+        #region Hour Flags
+
+        public static readonly DependencyProperty ShowHourTabProperty = DependencyProperty.Register(
+            "ShowHourTab", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowHourTab
+        {
+            get { return (bool)GetValue(ShowHourTabProperty); }
+            set { SetValue(ShowHourTabProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowHoursEveryXHoursProperty = DependencyProperty.Register(
+            "ShowHoursEveryXHours", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowHoursEveryXHours
+        {
+            get { return (bool)GetValue(ShowHoursEveryXHoursProperty); }
+            set { SetValue(ShowHoursEveryXHoursProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowHoursSpecificHoursProperty = DependencyProperty.Register(
+            "ShowHoursSpecificHours", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowHoursSpecificHours
+        {
+            get { return (bool)GetValue(ShowHoursSpecificHoursProperty); }
+            set { SetValue(ShowHoursSpecificHoursProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowHoursHourRangeProperty = DependencyProperty.Register(
+            "ShowHoursHourRange", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowHoursHourRange
+        {
+            get { return (bool)GetValue(ShowHoursHourRangeProperty); }
+            set { SetValue(ShowHoursHourRangeProperty, value); }
+        }
+
+        #endregion
+
         #endregion
 
         #region Year Parameters
@@ -198,6 +238,15 @@ namespace WpfCronExpressionUI
         {
             get { return (int) GetValue(MaximumYearProperty); }
             set { SetValue(MaximumYearProperty, value); }
+        }
+
+        public static readonly DependencyProperty MaxHeightYearRangeProperty = DependencyProperty.Register(
+            "MaxHeightYearRange", typeof(int), typeof(WpfCronExpressionUIView), new PropertyMetadata(150));
+
+        public int MaxHeightYearRange
+        {
+            get { return (int) GetValue(MaxHeightYearRangeProperty); }
+            set { SetValue(MaxHeightYearRangeProperty, value); }
         }
 
         #endregion

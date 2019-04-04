@@ -25,6 +25,7 @@
             MaximumYear="2036"
             ShowYearTab="True"
             ShowMonthTab="True"
+            ShowHourTab="True"
             />
     </Grid>
 </Window>

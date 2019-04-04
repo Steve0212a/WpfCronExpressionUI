@@ -9,14 +9,18 @@ namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModel : ViewModelBase
     {
-        public string CronExpression => $"Cron Expression: {MonthCronExpression} {DayOfWeekCronExpression} {YearCronExpression}";
+        public string CronExpression => $"Cron Expression: {SecondsCronExpression} {MinutesCronExpression} {HourCronExpression} {DayOfMonthCronExpression} {MonthCronExpression} {DayOfWeekCronExpression} {YearCronExpression}";
 
         private string DayOfWeekCronExpression = "*";
+        private string DayOfMonthCronExpression = "*";
+        private string MinutesCronExpression = "*";
+        private string SecondsCronExpression = "*";
 
         public ViewModel()
         {
             RefreshYearCronExpression();
             RefreshMonthRanges();
+            RefreshHourRanges();
         }
 
         #region Year
@@ -362,6 +366,170 @@ namespace WpfCronExpressionUI.ViewModel
                 );
             else if (MonthRange)
                 MonthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
+
+            OnPropertyChanged(nameof(CronExpression));
+        }
+
+        #endregion
+        #region Hour
+
+        private bool anyHour = true;
+
+        public bool AnyHour
+        {
+            get => anyHour;
+            set
+            {
+                // AnyHour
+                if (Set(nameof(AnyHour), ref anyHour, value)) RefreshHourCronExpression();
+            }
+        }
+
+        private bool everyXHours;
+
+        public bool EveryXHours
+        {
+            get => everyXHours;
+            set
+            {
+                // EveryXHours
+                if (Set(nameof(EveryXHours), ref everyXHours, value)) RefreshHourCronExpression();
+            }
+        }
+
+        private int everyXHoursSelectedItem = 1;
+
+        public int EveryXHoursSelectedItem
+        {
+            get { return everyXHoursSelectedItem; }
+            set
+            {
+                // EveryXHoursSelectedItem
+                Set(nameof(EveryXHoursSelectedItem), ref everyXHoursSelectedItem, value);
+                RefreshHourCronExpression();
+            }
+        }
+
+        public List<int> EveryXHoursItems => Enumerable.Range(1, 10).ToList();
+
+        private bool specificHours;
+
+        public bool SpecificHours
+        {
+            get => specificHours;
+            set
+            {
+                // SpecificHour
+                if (Set(nameof(SpecificHours), ref specificHours, value)) RefreshHourCronExpression();
+            }
+        }
+
+        private bool hourRange;
+
+        public bool HourRange
+        {
+            get => hourRange;
+            set
+            {
+                // HourRange
+                if (Set(nameof(HourRange), ref hourRange, value)) RefreshHourCronExpression();
+            }
+        }
+
+
+
+        private void RefreshHourRanges()
+        {
+            hourRangeItems = Enumerable.Range(0, 24)
+                .Select(ct => new ComboboxItem()
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+            hourRangeCheckedItems = Enumerable.Range(0, 24)
+                .Select(ct => new CheckedItem(HourCheckChanged)
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+
+            HourRangeStartSelectedItem = HourRangeItems.FirstOrDefault();
+            HourRangeEndSelectedItem = HourRangeItems.FirstOrDefault();
+            EveryXHoursStartInSelectedItem = HourRangeItems.FirstOrDefault();
+
+            OnPropertyChanged(nameof(HourRangeItems));
+            OnPropertyChanged(nameof(HourRangeCheckedItems));
+        }
+
+        private void HourCheckChanged()
+        {
+            RefreshHourCronExpression();
+        }
+
+        private List<ComboboxItem> hourRangeItems;
+        public List<ComboboxItem> HourRangeItems => hourRangeItems;
+
+        private List<CheckedItem> hourRangeCheckedItems;
+        public List<CheckedItem> HourRangeCheckedItems => hourRangeCheckedItems;
+
+
+
+        private ComboboxItem everyXHoursStartInSelectedItem;
+
+        public ComboboxItem EveryXHoursStartInSelectedItem
+        {
+            get { return everyXHoursStartInSelectedItem; }
+            set
+            {
+                // EveryXHoursStartInSelectedItem
+                Set(nameof(EveryXHoursStartInSelectedItem), ref everyXHoursStartInSelectedItem, value);
+                RefreshHourCronExpression();
+            }
+        }
+
+        private ComboboxItem hourRangeStartSelectedItem;
+
+        public ComboboxItem HourRangeStartSelectedItem
+        {
+            get { return hourRangeStartSelectedItem; }
+            set
+            {
+                // HourRangeStartSelectedItem
+                Set(nameof(HourRangeStartSelectedItem), ref hourRangeStartSelectedItem, value);
+                RefreshHourCronExpression();
+            }
+        }
+
+        private ComboboxItem hourRangeEndSelectedItem;
+
+        public ComboboxItem HourRangeEndSelectedItem
+        {
+            get { return hourRangeEndSelectedItem; }
+            set
+            {
+                // HourRangeEndSelectedItem
+                Set(nameof(HourRangeEndSelectedItem), ref hourRangeEndSelectedItem, value);
+                RefreshHourCronExpression();
+            }
+        }
+
+        private string HourCronExpression;
+
+        private void RefreshHourCronExpression()
+        {
+            if (AnyHour)
+                HourCronExpression = "*";
+            else if (EveryXHours)
+                HourCronExpression = $"{EveryXHoursStartInSelectedItem.Id}/{EveryXHoursSelectedItem}";
+            else if (SpecificHours)
+                HourCronExpression = string.Join(",", HourRangeCheckedItems
+                    .Where(ci => ci.IsChecked)
+                    .Select(ci => ci.Id)
+                );
+            else if (HourRange)
+                HourCronExpression = $"{HourRangeStartSelectedItem.Id}-{HourRangeEndSelectedItem.Id}";
 
             OnPropertyChanged(nameof(CronExpression));
         }
