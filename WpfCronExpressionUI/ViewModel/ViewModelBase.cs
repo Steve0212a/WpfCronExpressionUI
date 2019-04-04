@@ -6,7 +6,7 @@ namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModelBase : INotifyPropertyChanged
     {
-
+        // TEST
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
