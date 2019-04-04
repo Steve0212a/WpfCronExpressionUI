@@ -23,6 +23,8 @@
             ShowCronExpression="True"
             MinimumYear="1996"
             MaximumYear="2036"
+            ShowYearTab="True"
+            ShowMonthTab="True"
             />
     </Grid>
 </Window>

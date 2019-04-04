@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -8,11 +9,14 @@ namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModel : ViewModelBase
     {
-        public string CronExpression => $"Cron Expression: {YearCronExpression}";
+        public string CronExpression => $"Cron Expression: {MonthCronExpression} {DayOfWeekCronExpression} {YearCronExpression}";
+
+        private string DayOfWeekCronExpression = "*";
 
         public ViewModel()
         {
             RefreshYearCronExpression();
+            RefreshMonthRanges();
         }
 
         #region Year
@@ -194,6 +198,170 @@ namespace WpfCronExpressionUI.ViewModel
                 );
             else if (YearRange)
                 YearCronExpression = $"{YearRangeStartSelectedItem}-{YearRangeEndSelectedItem}";
+
+            OnPropertyChanged(nameof(CronExpression));
+        }
+
+        #endregion
+
+        #region Month
+
+        private bool anyMonth = true;
+
+        public bool AnyMonth
+        {
+            get => anyMonth;
+            set
+            {
+                // AnyMonth
+                if (Set(nameof(AnyMonth), ref anyMonth, value)) RefreshMonthCronExpression();
+            }
+        }
+
+        private bool everyXMonths;
+
+        public bool EveryXMonths
+        {
+            get => everyXMonths;
+            set
+            {
+                // EveryXMonths
+                if (Set(nameof(EveryXMonths), ref everyXMonths, value)) RefreshMonthCronExpression();
+            }
+        }
+
+        private int everyXMonthsSelectedItem = 1;
+
+        public int EveryXMonthsSelectedItem
+        {
+            get { return everyXMonthsSelectedItem; }
+            set
+            {
+                // EveryXMonthsSelectedItem
+                Set(nameof(EveryXMonthsSelectedItem), ref everyXMonthsSelectedItem, value);
+                RefreshMonthCronExpression();
+            }
+        }
+
+        public List<int> EveryXMonthsItems => Enumerable.Range(1, 10).ToList();
+
+        private bool specificMonths;
+
+        public bool SpecificMonths
+        {
+            get => specificMonths;
+            set
+            {
+                // SpecificMonth
+                if (Set(nameof(SpecificMonths), ref specificMonths, value)) RefreshMonthCronExpression();
+            }
+        }
+
+        private bool monthRange;
+
+        public bool MonthRange
+        {
+            get => monthRange;
+            set
+            {
+                // MonthRange
+                if (Set(nameof(MonthRange), ref monthRange, value)) RefreshMonthCronExpression();
+            }
+        }
+
+
+
+        private void RefreshMonthRanges()
+        {
+            monthRangeItems = Enumerable.Range(1, 12)
+                .Select(ct => new ComboboxItem() {
+                    Id = ct,
+                    Description = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(ct)
+                })
+                .ToList();
+            monthRangeCheckedItems = Enumerable.Range(1, 12)
+                .Select(ct => new CheckedItem(MonthCheckChanged)
+                {
+                    Id = ct,
+                    Description = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(ct)
+                })
+                .ToList();
+
+            MonthRangeStartSelectedItem = MonthRangeItems.FirstOrDefault();
+            MonthRangeEndSelectedItem = MonthRangeItems.FirstOrDefault();
+            EveryXMonthsStartInSelectedItem = MonthRangeItems.FirstOrDefault();
+
+            OnPropertyChanged(nameof(MonthRangeItems));
+            OnPropertyChanged(nameof(MonthRangeCheckedItems));
+        }
+
+        private void MonthCheckChanged()
+        {
+            RefreshMonthCronExpression();
+        }
+
+        private List<ComboboxItem> monthRangeItems;
+        public List<ComboboxItem> MonthRangeItems => monthRangeItems;
+
+        private List<CheckedItem> monthRangeCheckedItems;
+        public List<CheckedItem> MonthRangeCheckedItems => monthRangeCheckedItems;
+
+
+
+        private ComboboxItem everyXMonthsStartInSelectedItem;
+
+        public ComboboxItem EveryXMonthsStartInSelectedItem
+        {
+            get { return everyXMonthsStartInSelectedItem; }
+            set
+            {
+                // EveryXMonthsStartInSelectedItem
+                Set(nameof(EveryXMonthsStartInSelectedItem), ref everyXMonthsStartInSelectedItem, value);
+                RefreshMonthCronExpression();
+            }
+        }
+
+        private ComboboxItem monthRangeStartSelectedItem;
+
+        public ComboboxItem MonthRangeStartSelectedItem
+        {
+            get { return monthRangeStartSelectedItem; }
+            set
+            {
+                // MonthRangeStartSelectedItem
+                Set(nameof(MonthRangeStartSelectedItem), ref monthRangeStartSelectedItem, value);
+                RefreshMonthCronExpression();
+            }
+        }
+
+        private ComboboxItem monthRangeEndSelectedItem;
+
+        public ComboboxItem MonthRangeEndSelectedItem
+        {
+            get { return monthRangeEndSelectedItem; }
+            set
+            {
+                // MonthRangeEndSelectedItem
+                Set(nameof(MonthRangeEndSelectedItem), ref monthRangeEndSelectedItem, value);
+                RefreshMonthCronExpression();
+            }
+        }
+
+        private string MonthCronExpression;
+
+        private void RefreshMonthCronExpression()
+        {
+            if (AnyMonth)
+                MonthCronExpression = "*";
+            else if (EveryXMonths)
+                MonthCronExpression = $"{EveryXMonthsStartInSelectedItem.Id}/{EveryXMonthsSelectedItem}";
+            else if (SpecificMonths)
+                MonthCronExpression = string.Join(",", MonthRangeCheckedItems
+                    .Where(ci => ci.IsChecked)
+                    .Select(ci => ci.Id)
+                );
+            else if (MonthRange)
+                MonthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
 
             OnPropertyChanged(nameof(CronExpression));
         }

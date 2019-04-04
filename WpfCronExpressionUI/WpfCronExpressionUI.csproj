@@ -53,6 +53,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="ViewModel\CheckedItem.cs" />
+    <Compile Include="ViewModel\ComboboxItem.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="WpfCronExpressionUiView.xaml.cs">
