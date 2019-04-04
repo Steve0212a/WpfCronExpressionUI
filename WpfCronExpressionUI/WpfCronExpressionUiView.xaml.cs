@@ -218,6 +218,46 @@ namespace WpfCronExpressionUI
 
         #endregion
 
+        #region Minute Flags
+
+        public static readonly DependencyProperty ShowMinuteTabProperty = DependencyProperty.Register(
+            "ShowMinuteTab", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowMinuteTab
+        {
+            get { return (bool)GetValue(ShowMinuteTabProperty); }
+            set { SetValue(ShowMinuteTabProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowMinutesEveryXMinutesProperty = DependencyProperty.Register(
+            "ShowMinutesEveryXMinutes", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowMinutesEveryXMinutes
+        {
+            get { return (bool)GetValue(ShowMinutesEveryXMinutesProperty); }
+            set { SetValue(ShowMinutesEveryXMinutesProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowMinutesSpecificMinutesProperty = DependencyProperty.Register(
+            "ShowMinutesSpecificMinutes", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowMinutesSpecificMinutes
+        {
+            get { return (bool)GetValue(ShowMinutesSpecificMinutesProperty); }
+            set { SetValue(ShowMinutesSpecificMinutesProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowMinutesMinuteRangeProperty = DependencyProperty.Register(
+            "ShowMinutesMinuteRange", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowMinutesMinuteRange
+        {
+            get { return (bool)GetValue(ShowMinutesMinuteRangeProperty); }
+            set { SetValue(ShowMinutesMinuteRangeProperty, value); }
+        }
+
+        #endregion
+
         #endregion
 
         #region Year Parameters

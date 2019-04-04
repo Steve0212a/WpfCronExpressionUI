@@ -217,6 +217,66 @@
                     </RadioButton>
                 </Grid>
             </TabItem>
+            <TabItem x:Name="TabItemMinute" Header="Minute" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                Visibility="{Binding ShowMinuteTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <RadioButton Grid.Row="0" IsChecked="{Binding AnyMinute, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                        <TextBlock Text="Any Minute" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                    </RadioButton>
+
+                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXMinutes, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                 Visibility="{Binding ShowMinutesEveryXMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            <ComboBox SelectedItem="{Binding EveryXMinutesSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMinutesItems}" MinWidth="40"
+                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
+                            <TextBlock Text="Minute(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            <ComboBox SelectedItem="{Binding EveryXMinutesStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40" DisplayMemberPath="Description"
+                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Grid.Row="2" IsChecked="{Binding SpecificMinutes, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                 Visibility="{Binding ShowMinutesSpecificMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock Text="Specific Minutes" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                    </RadioButton>
+
+                    <ItemsControl ItemsSource="{Binding MinuteRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
+                                  Visibility="{Binding ShowMinutesSpecificMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="10" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <RadioButton Grid.Row="4" IsChecked="{Binding MinuteRange, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                 Visibility="{Binding ShowMinutesMinuteRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Every minute between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            <ComboBox SelectedItem="{Binding MinuteRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
+                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
+                            <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            <ComboBox SelectedItem="{Binding MinuteRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
+                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
+                        </StackPanel>
+                    </RadioButton>
+                </Grid>
+            </TabItem>
         </TabControl>
 
         <TextBlock Grid.Row="1" Text="{Binding CronExpression}" Margin="0,5"

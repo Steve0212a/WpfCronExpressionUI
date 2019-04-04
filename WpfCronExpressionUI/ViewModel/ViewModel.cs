@@ -9,18 +9,18 @@ namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModel : ViewModelBase
     {
-        public string CronExpression => $"Cron Expression: {SecondsCronExpression} {MinutesCronExpression} {HourCronExpression} {DayOfMonthCronExpression} {MonthCronExpression} {DayOfWeekCronExpression} {YearCronExpression}";
+        public string CronExpression => $"Cron Expression: {SecondCronExpression} {MinuteCronExpression} {HourCronExpression} {DayOfMonthCronExpression} {MonthCronExpression} {DayOfWeekCronExpression} {YearCronExpression}";
 
         private string DayOfWeekCronExpression = "*";
         private string DayOfMonthCronExpression = "*";
-        private string MinutesCronExpression = "*";
-        private string SecondsCronExpression = "*";
+        private string SecondCronExpression = "*";
 
         public ViewModel()
         {
             RefreshYearCronExpression();
             RefreshMonthRanges();
             RefreshHourRanges();
+            RefreshMinuteRanges();
         }
 
         #region Year
@@ -371,6 +371,7 @@ namespace WpfCronExpressionUI.ViewModel
         }
 
         #endregion
+
         #region Hour
 
         private bool anyHour = true;
@@ -530,6 +531,171 @@ namespace WpfCronExpressionUI.ViewModel
                 );
             else if (HourRange)
                 HourCronExpression = $"{HourRangeStartSelectedItem.Id}-{HourRangeEndSelectedItem.Id}";
+
+            OnPropertyChanged(nameof(CronExpression));
+        }
+
+        #endregion
+
+        #region Minute
+
+        private bool anyMinute = true;
+
+        public bool AnyMinute
+        {
+            get => anyMinute;
+            set
+            {
+                // AnyMinute
+                if (Set(nameof(AnyMinute), ref anyMinute, value)) RefreshMinuteCronExpression();
+            }
+        }
+
+        private bool everyXMinutes;
+
+        public bool EveryXMinutes
+        {
+            get => everyXMinutes;
+            set
+            {
+                // EveryXMinutes
+                if (Set(nameof(EveryXMinutes), ref everyXMinutes, value)) RefreshMinuteCronExpression();
+            }
+        }
+
+        private int everyXMinutesSelectedItem = 1;
+
+        public int EveryXMinutesSelectedItem
+        {
+            get { return everyXMinutesSelectedItem; }
+            set
+            {
+                // EveryXMinutesSelectedItem
+                Set(nameof(EveryXMinutesSelectedItem), ref everyXMinutesSelectedItem, value);
+                RefreshMinuteCronExpression();
+            }
+        }
+
+        public List<int> EveryXMinutesItems => Enumerable.Range(1, 10).ToList();
+
+        private bool specificMinutes;
+
+        public bool SpecificMinutes
+        {
+            get => specificMinutes;
+            set
+            {
+                // SpecificMinute
+                if (Set(nameof(SpecificMinutes), ref specificMinutes, value)) RefreshMinuteCronExpression();
+            }
+        }
+
+        private bool minuteRange;
+
+        public bool MinuteRange
+        {
+            get => minuteRange;
+            set
+            {
+                // MinuteRange
+                if (Set(nameof(MinuteRange), ref minuteRange, value)) RefreshMinuteCronExpression();
+            }
+        }
+
+
+
+        private void RefreshMinuteRanges()
+        {
+            minuteRangeItems = Enumerable.Range(0, 60)
+                .Select(ct => new ComboboxItem()
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+            minuteRangeCheckedItems = Enumerable.Range(0, 60)
+                .Select(ct => new CheckedItem(MinuteCheckChanged)
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+
+            MinuteRangeStartSelectedItem = MinuteRangeItems.FirstOrDefault();
+            MinuteRangeEndSelectedItem = MinuteRangeItems.FirstOrDefault();
+            EveryXMinutesStartInSelectedItem = MinuteRangeItems.FirstOrDefault();
+
+            OnPropertyChanged(nameof(MinuteRangeItems));
+            OnPropertyChanged(nameof(MinuteRangeCheckedItems));
+        }
+
+        private void MinuteCheckChanged()
+        {
+            RefreshMinuteCronExpression();
+        }
+
+        private List<ComboboxItem> minuteRangeItems;
+        public List<ComboboxItem> MinuteRangeItems => minuteRangeItems;
+
+        private List<CheckedItem> minuteRangeCheckedItems;
+        public List<CheckedItem> MinuteRangeCheckedItems => minuteRangeCheckedItems;
+
+
+
+        private ComboboxItem everyXMinutesStartInSelectedItem;
+
+        public ComboboxItem EveryXMinutesStartInSelectedItem
+        {
+            get { return everyXMinutesStartInSelectedItem; }
+            set
+            {
+                // EveryXMinutesStartInSelectedItem
+                Set(nameof(EveryXMinutesStartInSelectedItem), ref everyXMinutesStartInSelectedItem, value);
+                RefreshMinuteCronExpression();
+            }
+        }
+
+        private ComboboxItem minuteRangeStartSelectedItem;
+
+        public ComboboxItem MinuteRangeStartSelectedItem
+        {
+            get { return minuteRangeStartSelectedItem; }
+            set
+            {
+                // MinuteRangeStartSelectedItem
+                Set(nameof(MinuteRangeStartSelectedItem), ref minuteRangeStartSelectedItem, value);
+                RefreshMinuteCronExpression();
+            }
+        }
+
+        private ComboboxItem minuteRangeEndSelectedItem;
+
+        public ComboboxItem MinuteRangeEndSelectedItem
+        {
+            get { return minuteRangeEndSelectedItem; }
+            set
+            {
+                // MinuteRangeEndSelectedItem
+                Set(nameof(MinuteRangeEndSelectedItem), ref minuteRangeEndSelectedItem, value);
+                RefreshMinuteCronExpression();
+            }
+        }
+
+        private string MinuteCronExpression;
+
+        private void RefreshMinuteCronExpression()
+        {
+            if (AnyMinute)
+                MinuteCronExpression = "*";
+            else if (EveryXMinutes)
+                MinuteCronExpression = $"{EveryXMinutesStartInSelectedItem.Id}/{EveryXMinutesSelectedItem}";
+            else if (SpecificMinutes)
+                MinuteCronExpression = string.Join(",", MinuteRangeCheckedItems
+                    .Where(ci => ci.IsChecked)
+                    .Select(ci => ci.Id)
+                );
+            else if (MinuteRange)
+                MinuteCronExpression = $"{MinuteRangeStartSelectedItem.Id}-{MinuteRangeEndSelectedItem.Id}";
 
             OnPropertyChanged(nameof(CronExpression));
         }
