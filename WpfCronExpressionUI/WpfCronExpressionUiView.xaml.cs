@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfCronExpressionUI
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class WpfCronExpressionUIView : UserControl
+    public partial class WpfCronExpressionUIView
     {
         #region Styles
 
@@ -91,7 +80,7 @@ namespace WpfCronExpressionUI
         }
 
         public static readonly DependencyProperty ShowYearTabProperty = DependencyProperty.Register(
-            "ShowYearTab", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true, new PropertyChangedCallback(OnShowYearTabChanged)));
+            "ShowYearTab", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true, OnShowYearTabChanged));
 
         private static void OnShowYearTabChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -254,6 +243,46 @@ namespace WpfCronExpressionUI
         {
             get { return (bool)GetValue(ShowMinutesMinuteRangeProperty); }
             set { SetValue(ShowMinutesMinuteRangeProperty, value); }
+        }
+
+        #endregion
+
+        #region Second Flags
+
+        public static readonly DependencyProperty ShowSecondTabProperty = DependencyProperty.Register(
+            "ShowSecondTab", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowSecondTab
+        {
+            get { return (bool)GetValue(ShowSecondTabProperty); }
+            set { SetValue(ShowSecondTabProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowSecondsEveryXSecondsProperty = DependencyProperty.Register(
+            "ShowSecondsEveryXSeconds", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowSecondsEveryXSeconds
+        {
+            get { return (bool)GetValue(ShowSecondsEveryXSecondsProperty); }
+            set { SetValue(ShowSecondsEveryXSecondsProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowSecondsSpecificSecondsProperty = DependencyProperty.Register(
+            "ShowSecondsSpecificSeconds", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowSecondsSpecificSeconds
+        {
+            get { return (bool)GetValue(ShowSecondsSpecificSecondsProperty); }
+            set { SetValue(ShowSecondsSpecificSecondsProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowSecondsSecondRangeProperty = DependencyProperty.Register(
+            "ShowSecondsSecondRange", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowSecondsSecondRange
+        {
+            get { return (bool)GetValue(ShowSecondsSecondRangeProperty); }
+            set { SetValue(ShowSecondsSecondRangeProperty, value); }
         }
 
         #endregion

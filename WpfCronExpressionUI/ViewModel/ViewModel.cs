@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModel : ViewModelBase
     {
-        public string CronExpression => $"Cron Expression: {SecondCronExpression} {MinuteCronExpression} {HourCronExpression} {DayOfMonthCronExpression} {MonthCronExpression} {DayOfWeekCronExpression} {YearCronExpression}";
+        public string CronExpression => $"Cron Expression: {secondCronExpression} {minuteCronExpression} {hourCronExpression} {DayOfMonthCronExpression} {monthCronExpression} {DayOfWeekCronExpression} {yearCronExpression}";
 
         private string DayOfWeekCronExpression = "*";
         private string DayOfMonthCronExpression = "*";
-        private string SecondCronExpression = "*";
 
         public ViewModel()
         {
@@ -21,6 +18,7 @@ namespace WpfCronExpressionUI.ViewModel
             RefreshMonthRanges();
             RefreshHourRanges();
             RefreshMinuteRanges();
+            RefreshSecondRanges();
         }
 
         #region Year
@@ -187,21 +185,21 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        private string YearCronExpression;
+        private string yearCronExpression;
 
         private void RefreshYearCronExpression()
         {
             if (AnyYear)
-                YearCronExpression = "*";
+                yearCronExpression = "*";
             else if (EveryXYears)
-                YearCronExpression = $"{EveryXYearsStartInSelectedItem}/{EveryXYearsSelectedItem}";
+                yearCronExpression = $"{EveryXYearsStartInSelectedItem}/{EveryXYearsSelectedItem}";
             else if (SpecificYears)
-                YearCronExpression = string.Join(",", YearRangeCheckedItems
+                yearCronExpression = string.Join(",", YearRangeCheckedItems
                     .Where(ci => ci.IsChecked)
                     .Select(ci => ci.Id)
                 );
             else if (YearRange)
-                YearCronExpression = $"{YearRangeStartSelectedItem}-{YearRangeEndSelectedItem}";
+                yearCronExpression = $"{YearRangeStartSelectedItem}-{YearRangeEndSelectedItem}";
 
             OnPropertyChanged(nameof(CronExpression));
         }
@@ -351,21 +349,21 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        private string MonthCronExpression;
+        private string monthCronExpression;
 
         private void RefreshMonthCronExpression()
         {
             if (AnyMonth)
-                MonthCronExpression = "*";
+                monthCronExpression = "*";
             else if (EveryXMonths)
-                MonthCronExpression = $"{EveryXMonthsStartInSelectedItem.Id}/{EveryXMonthsSelectedItem}";
+                monthCronExpression = $"{EveryXMonthsStartInSelectedItem.Id}/{EveryXMonthsSelectedItem}";
             else if (SpecificMonths)
-                MonthCronExpression = string.Join(",", MonthRangeCheckedItems
+                monthCronExpression = string.Join(",", MonthRangeCheckedItems
                     .Where(ci => ci.IsChecked)
                     .Select(ci => ci.Id)
                 );
             else if (MonthRange)
-                MonthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
+                monthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
 
             OnPropertyChanged(nameof(CronExpression));
         }
@@ -516,21 +514,21 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        private string HourCronExpression;
+        private string hourCronExpression;
 
         private void RefreshHourCronExpression()
         {
             if (AnyHour)
-                HourCronExpression = "*";
+                hourCronExpression = "*";
             else if (EveryXHours)
-                HourCronExpression = $"{EveryXHoursStartInSelectedItem.Id}/{EveryXHoursSelectedItem}";
+                hourCronExpression = $"{EveryXHoursStartInSelectedItem.Id}/{EveryXHoursSelectedItem}";
             else if (SpecificHours)
-                HourCronExpression = string.Join(",", HourRangeCheckedItems
+                hourCronExpression = string.Join(",", HourRangeCheckedItems
                     .Where(ci => ci.IsChecked)
                     .Select(ci => ci.Id)
                 );
             else if (HourRange)
-                HourCronExpression = $"{HourRangeStartSelectedItem.Id}-{HourRangeEndSelectedItem.Id}";
+                hourCronExpression = $"{HourRangeStartSelectedItem.Id}-{HourRangeEndSelectedItem.Id}";
 
             OnPropertyChanged(nameof(CronExpression));
         }
@@ -681,21 +679,186 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        private string MinuteCronExpression;
+        private string minuteCronExpression;
 
         private void RefreshMinuteCronExpression()
         {
             if (AnyMinute)
-                MinuteCronExpression = "*";
+                minuteCronExpression = "*";
             else if (EveryXMinutes)
-                MinuteCronExpression = $"{EveryXMinutesStartInSelectedItem.Id}/{EveryXMinutesSelectedItem}";
+                minuteCronExpression = $"{EveryXMinutesStartInSelectedItem.Id}/{EveryXMinutesSelectedItem}";
             else if (SpecificMinutes)
-                MinuteCronExpression = string.Join(",", MinuteRangeCheckedItems
+                minuteCronExpression = string.Join(",", MinuteRangeCheckedItems
                     .Where(ci => ci.IsChecked)
                     .Select(ci => ci.Id)
                 );
             else if (MinuteRange)
-                MinuteCronExpression = $"{MinuteRangeStartSelectedItem.Id}-{MinuteRangeEndSelectedItem.Id}";
+                minuteCronExpression = $"{MinuteRangeStartSelectedItem.Id}-{MinuteRangeEndSelectedItem.Id}";
+
+            OnPropertyChanged(nameof(CronExpression));
+        }
+
+        #endregion
+
+        #region Second
+
+        private bool anySecond = true;
+
+        public bool AnySecond
+        {
+            get => anySecond;
+            set
+            {
+                // AnySecond
+                if (Set(nameof(AnySecond), ref anySecond, value)) RefreshSecondCronExpression();
+            }
+        }
+
+        private bool everyXSeconds;
+
+        public bool EveryXSeconds
+        {
+            get => everyXSeconds;
+            set
+            {
+                // EveryXSeconds
+                if (Set(nameof(EveryXSeconds), ref everyXSeconds, value)) RefreshSecondCronExpression();
+            }
+        }
+
+        private int everyXSecondsSelectedItem = 1;
+
+        public int EveryXSecondsSelectedItem
+        {
+            get { return everyXSecondsSelectedItem; }
+            set
+            {
+                // EveryXSecondsSelectedItem
+                Set(nameof(EveryXSecondsSelectedItem), ref everyXSecondsSelectedItem, value);
+                RefreshSecondCronExpression();
+            }
+        }
+
+        public List<int> EveryXSecondsItems => Enumerable.Range(1, 10).ToList();
+
+        private bool specificSeconds;
+
+        public bool SpecificSeconds
+        {
+            get => specificSeconds;
+            set
+            {
+                // SpecificSecond
+                if (Set(nameof(SpecificSeconds), ref specificSeconds, value)) RefreshSecondCronExpression();
+            }
+        }
+
+        private bool secondRange;
+
+        public bool SecondRange
+        {
+            get => secondRange;
+            set
+            {
+                // SecondRange
+                if (Set(nameof(SecondRange), ref secondRange, value)) RefreshSecondCronExpression();
+            }
+        }
+
+
+
+        private void RefreshSecondRanges()
+        {
+            secondRangeItems = Enumerable.Range(0, 60)
+                .Select(ct => new ComboboxItem()
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+            secondRangeCheckedItems = Enumerable.Range(0, 60)
+                .Select(ct => new CheckedItem(SecondCheckChanged)
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+
+            SecondRangeStartSelectedItem = SecondRangeItems.FirstOrDefault();
+            SecondRangeEndSelectedItem = SecondRangeItems.FirstOrDefault();
+            EveryXSecondsStartInSelectedItem = SecondRangeItems.FirstOrDefault();
+
+            OnPropertyChanged(nameof(SecondRangeItems));
+            OnPropertyChanged(nameof(SecondRangeCheckedItems));
+        }
+
+        private void SecondCheckChanged()
+        {
+            RefreshSecondCronExpression();
+        }
+
+        private List<ComboboxItem> secondRangeItems;
+        public List<ComboboxItem> SecondRangeItems => secondRangeItems;
+
+        private List<CheckedItem> secondRangeCheckedItems;
+        public List<CheckedItem> SecondRangeCheckedItems => secondRangeCheckedItems;
+
+
+
+        private ComboboxItem everyXSecondsStartInSelectedItem;
+
+        public ComboboxItem EveryXSecondsStartInSelectedItem
+        {
+            get { return everyXSecondsStartInSelectedItem; }
+            set
+            {
+                // EveryXSecondsStartInSelectedItem
+                Set(nameof(EveryXSecondsStartInSelectedItem), ref everyXSecondsStartInSelectedItem, value);
+                RefreshSecondCronExpression();
+            }
+        }
+
+        private ComboboxItem secondRangeStartSelectedItem;
+
+        public ComboboxItem SecondRangeStartSelectedItem
+        {
+            get { return secondRangeStartSelectedItem; }
+            set
+            {
+                // SecondRangeStartSelectedItem
+                Set(nameof(SecondRangeStartSelectedItem), ref secondRangeStartSelectedItem, value);
+                RefreshSecondCronExpression();
+            }
+        }
+
+        private ComboboxItem secondRangeEndSelectedItem;
+
+        public ComboboxItem SecondRangeEndSelectedItem
+        {
+            get { return secondRangeEndSelectedItem; }
+            set
+            {
+                // SecondRangeEndSelectedItem
+                Set(nameof(SecondRangeEndSelectedItem), ref secondRangeEndSelectedItem, value);
+                RefreshSecondCronExpression();
+            }
+        }
+
+        private string secondCronExpression;
+
+        private void RefreshSecondCronExpression()
+        {
+            if (AnySecond)
+                secondCronExpression = "*";
+            else if (EveryXSeconds)
+                secondCronExpression = $"{EveryXSecondsStartInSelectedItem.Id}/{EveryXSecondsSelectedItem}";
+            else if (SpecificSeconds)
+                secondCronExpression = string.Join(",", SecondRangeCheckedItems
+                    .Where(ci => ci.IsChecked)
+                    .Select(ci => ci.Id)
+                );
+            else if (SecondRange)
+                secondCronExpression = $"{SecondRangeStartSelectedItem.Id}-{SecondRangeEndSelectedItem.Id}";
 
             OnPropertyChanged(nameof(CronExpression));
         }
