@@ -167,6 +167,91 @@ namespace WpfCronExpressionUI
 
         #endregion
 
+        #region Day Flags
+
+        public static readonly DependencyProperty ShowDayTabProperty = DependencyProperty.Register(
+            "ShowDayTab", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDayTab
+        {
+            get { return (bool)GetValue(ShowDayTabProperty); }
+            set { SetValue(ShowDayTabProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysEveryXWeekDaysProperty = DependencyProperty.Register(
+            "ShowDaysEveryXWeekDays", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysEveryXWeekDays
+        {
+            get { return (bool)GetValue(ShowDaysEveryXWeekDaysProperty); }
+            set { SetValue(ShowDaysEveryXWeekDaysProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysEveryXMonthDaysProperty = DependencyProperty.Register(
+            "ShowDaysEveryXMonthDays", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysEveryXMonthDays
+        {
+            get { return (bool) GetValue(ShowDaysEveryXMonthDaysProperty); }
+            set { SetValue(ShowDaysEveryXMonthDaysProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysSpecificDaysOfWeekDaysProperty = DependencyProperty.Register(
+            "ShowDaysSpecificDaysOfWeekDays", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysSpecificDaysOfWeekDays
+        {
+            get { return (bool)GetValue(ShowDaysSpecificDaysOfWeekDaysProperty); }
+            set { SetValue(ShowDaysSpecificDaysOfWeekDaysProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysSpecificDaysOfMonthDaysProperty = DependencyProperty.Register(
+            "ShowDaysSpecificDaysOfMonthDays", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysSpecificDaysOfMonthDays
+        {
+            get { return (bool) GetValue(ShowDaysSpecificDaysOfMonthDaysProperty); }
+            set { SetValue(ShowDaysSpecificDaysOfMonthDaysProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysLastDayOfMonthProperty = DependencyProperty.Register(
+            "ShowDaysLastDayOfMonth", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysLastDayOfMonth
+        {
+            get { return (bool) GetValue(ShowDaysLastDayOfMonthProperty); }
+            set { SetValue(ShowDaysLastDayOfMonthProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysLastWeekDayOfMonthProperty = DependencyProperty.Register(
+            "ShowDaysLastWeekDayOfMonth", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysLastWeekDayOfMonth
+        {
+            get { return (bool) GetValue(ShowDaysLastWeekDayOfMonthProperty); }
+            set { SetValue(ShowDaysLastWeekDayOfMonthProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysLastXDayOfMonthProperty = DependencyProperty.Register(
+            "ShowDaysLastXDayOfMonth", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysLastXDayOfMonth
+        {
+            get { return (bool) GetValue(ShowDaysLastXDayOfMonthProperty); }
+            set { SetValue(ShowDaysLastXDayOfMonthProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowDaysDaysBeforeEndOfMonthProperty = DependencyProperty.Register(
+            "ShowDaysDaysBeforeEndOfMonth", typeof(bool), typeof(WpfCronExpressionUIView), new PropertyMetadata(true));
+
+        public bool ShowDaysDaysBeforeEndOfMonth
+        {
+            get { return (bool) GetValue(ShowDaysDaysBeforeEndOfMonthProperty); }
+            set { SetValue(ShowDaysDaysBeforeEndOfMonthProperty, value); }
+        }
+
+        #endregion
+
         #region Hour Flags
 
         public static readonly DependencyProperty ShowHourTabProperty = DependencyProperty.Register(

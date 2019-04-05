@@ -7,10 +7,8 @@ namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModel : ViewModelBase
     {
-        public string CronExpression => $"Cron Expression: {secondCronExpression} {minuteCronExpression} {hourCronExpression} {DayOfMonthCronExpression} {monthCronExpression} {DayOfWeekCronExpression} {yearCronExpression}";
+        public string CronExpression => $"Cron Expression: {secondCronExpression} {minuteCronExpression} {hourCronExpression} {dayOfMonthCronExpression} {monthCronExpression} {dayOfWeekCronExpression} {yearCronExpression}";
 
-        private string DayOfWeekCronExpression = "*";
-        private string DayOfMonthCronExpression = "*";
 
         public ViewModel()
         {
@@ -19,6 +17,7 @@ namespace WpfCronExpressionUI.ViewModel
             RefreshHourRanges();
             RefreshMinuteRanges();
             RefreshSecondRanges();
+            RefreshDayRanges();
         }
 
         #region Year
@@ -364,6 +363,341 @@ namespace WpfCronExpressionUI.ViewModel
                 );
             else if (MonthRange)
                 monthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
+
+            OnPropertyChanged(nameof(CronExpression));
+        }
+
+        #endregion
+
+        #region Day
+
+        private bool anyDay = true;
+
+        public bool AnyDay
+        {
+            get => anyDay;
+            set
+            {
+                // AnyDay
+                if (Set(nameof(AnyDay), ref anyDay, value)) RefreshDayCronExpression();
+            }
+        }
+
+        private bool everyXWeekDays;
+
+        public bool EveryXWeekDays
+        {
+            get => everyXWeekDays;
+            set
+            {
+                // EveryXWeekDays
+                if (Set(nameof(EveryXWeekDays), ref everyXWeekDays, value)) RefreshDayCronExpression();
+            }
+        }
+
+        private bool everyXMonthDays;
+
+        public bool EveryXMonthDays
+        {
+            get { return everyXMonthDays; }
+            set
+            {
+                // EveryXMonthDays
+                Set(nameof(EveryXMonthDays), ref everyXMonthDays, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private int everyXWeekDaysSelectedItem = 1;
+
+        public int EveryXWeekDaysSelectedItem
+        {
+            get { return everyXWeekDaysSelectedItem; }
+            set
+            {
+                // EveryXWeekDaysSelectedItem
+                Set(nameof(EveryXWeekDaysSelectedItem), ref everyXWeekDaysSelectedItem, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private int everyXMonthDaysSelectedItem;
+
+        public int EveryXMonthDaysSelectedItem
+        {
+            get { return everyXMonthDaysSelectedItem; }
+            set
+            {
+                // EveryXMonthDaysSelectedItem
+                Set(nameof(EveryXMonthDaysSelectedItem), ref everyXMonthDaysSelectedItem, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        public List<int> EveryXWeekDaysItems => Enumerable.Range(1, 7).ToList();
+        public List<int> EveryXMonthDaysItems => Enumerable.Range(1, 31).ToList();
+        
+
+        private bool specificDaysOfWeeks;
+
+        public bool SpecificDaysOfWeeks
+        {
+            get => specificDaysOfWeeks;
+            set
+            {
+                // SpecificDay
+                if (Set(nameof(SpecificDaysOfWeeks), ref specificDaysOfWeeks, value)) RefreshDayCronExpression();
+            }
+        }
+
+        private bool specificDaysOfMonths;
+
+        public bool SpecificDaysOfMonths
+        {
+            get { return specificDaysOfMonths; }
+            set
+            {
+                // SpecificDaysOfMonths
+                Set(nameof(SpecificDaysOfMonths), ref specificDaysOfMonths, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private bool lastDayOfMonth;
+
+        public bool LastDayOfMonth
+        {
+            get { return lastDayOfMonth; }
+            set
+            {
+                // LastDayOfMonth
+                Set(nameof(LastDayOfMonth), ref lastDayOfMonth, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private bool lastWeekDayOfMonth;
+
+        public bool LastWeekDayOfMonth
+        {
+            get { return lastWeekDayOfMonth; }
+            set
+            {
+                // LastWeekDayOfMonth
+                Set(nameof(LastWeekDayOfMonth), ref lastWeekDayOfMonth, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private bool lastXDayOfMonth;
+
+        public bool LastXDayOfMonth
+        {
+            get { return lastXDayOfMonth; }
+            set
+            {
+                // LastXDayOfMonth
+                Set(nameof(LastXDayOfMonth), ref lastXDayOfMonth, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private bool daysBeforeEndOfMonth;
+
+        public bool DaysBeforeEndOfMonth
+        {
+            get { return daysBeforeEndOfMonth; }
+            set
+            {
+                // DaysBeforeEndOfMonth
+                Set(nameof(DaysBeforeEndOfMonth), ref daysBeforeEndOfMonth, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private void RefreshDayRanges()
+        {
+            dayRangeItems = Enumerable.Range(0, 7)
+                .Select(ct => new ComboboxItem()
+                {
+                    Id = ct + 1,    // cron days of week are 1-7
+                    Description = CultureInfo.CurrentCulture.DateTimeFormat.GetDayName((DayOfWeek)ct)
+                })
+                .ToList();
+            dayOfWeekRangeCheckedItems = Enumerable.Range(0, 7)
+                .Select(ct => new CheckedItem(DayCheckChanged)
+                {
+                    Id = ct + 1,    // cron days of week are 1-7
+                    Description = CultureInfo.CurrentCulture.DateTimeFormat.GetDayName((DayOfWeek)ct)
+                })
+                .ToList();
+
+            dayOfMonthRangeItems = Enumerable.Range(1, 31)
+                .Select(ct =>
+                {
+                    var suffix = (ct % 10 == 1 && ct != 11) ? "st"
+                        : (ct % 10 == 2 && ct != 12) ? "nd"
+                        : (ct % 10 == 3 && ct != 13) ? "rd"
+                        : "th";
+                    return new ComboboxItem()
+                    {
+                        Id = ct,
+                        Description = $"{ct}{suffix}"
+                    };
+                })
+                .ToList();
+
+            dayOfMonthRangeCheckedItems = Enumerable.Range(1, 31)
+                .Select(ct => new CheckedItem(DayCheckChanged)
+                {
+                    Id = ct,
+                    Description = ct.ToString()
+                })
+                .ToList();
+
+            EveryXWeekDaysStartInSelectedItem = DayRangeItems.FirstOrDefault();
+            EveryXMonthDaysSelectedItem = EveryXMonthDaysItems.FirstOrDefault();
+            EveryXMonthDaysStartInSelectedItem = DayOfMonthRangeItems.FirstOrDefault();
+            LastXDayOfMonthSelectedItem = DayRangeItems.FirstOrDefault();
+            DaysBeforeEndOfMonthSelectedItem = EveryXMonthDaysItems.FirstOrDefault();
+
+            OnPropertyChanged(nameof(DayRangeItems));
+            OnPropertyChanged(nameof(DayOfWeekRangeCheckedItems));
+            OnPropertyChanged(nameof(DayOfMonthRangeItems));
+        }
+
+        private void DayCheckChanged()
+        {
+            RefreshDayCronExpression();
+        }
+
+        private List<ComboboxItem> dayRangeItems;
+        public List<ComboboxItem> DayRangeItems => dayRangeItems;
+
+        private List<CheckedItem> dayOfWeekRangeCheckedItems;
+        public List<CheckedItem> DayOfWeekRangeCheckedItems => dayOfWeekRangeCheckedItems;
+
+        private List<ComboboxItem> dayOfMonthRangeItems;
+        public List<ComboboxItem> DayOfMonthRangeItems => dayOfMonthRangeItems;
+
+        private List<CheckedItem> dayOfMonthRangeCheckedItems;
+        public List<CheckedItem> DayOfMonthRangeCheckedItems => dayOfMonthRangeCheckedItems;
+
+
+        private ComboboxItem lastXDayOfMonthSelectedItem;
+
+        public ComboboxItem LastXDayOfMonthSelectedItem
+        {
+            get { return lastXDayOfMonthSelectedItem; }
+            set
+            {
+                // LastXDayOfMonthSelectedItem
+                Set(nameof(LastXDayOfMonthSelectedItem), ref lastXDayOfMonthSelectedItem, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private int daysBeforeEndOfMonthSelectedItem;
+
+        public int DaysBeforeEndOfMonthSelectedItem
+        {
+            get { return daysBeforeEndOfMonthSelectedItem; }
+            set
+            {
+                // DaysBeforeEndOfMonthSelectedItem
+                Set(nameof(DaysBeforeEndOfMonthSelectedItem), ref daysBeforeEndOfMonthSelectedItem, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private ComboboxItem everyXWeekDaysStartInSelectedItem;
+
+        public ComboboxItem EveryXWeekDaysStartInSelectedItem
+        {
+            get { return everyXWeekDaysStartInSelectedItem; }
+            set
+            {
+                // EveryXWeekDaysStartInSelectedItem
+                Set(nameof(EveryXWeekDaysStartInSelectedItem), ref everyXWeekDaysStartInSelectedItem, value);
+                RefreshDayCronExpression();
+            }
+        }
+
+        private ComboboxItem everyXMonthDaysStartInSelectedItem;
+
+        public ComboboxItem EveryXMonthDaysStartInSelectedItem
+        {
+            get { return everyXMonthDaysStartInSelectedItem; }
+            set
+            {
+                // EveryXMonthDaysStartInSelectedItem
+                Set(nameof(EveryXMonthDaysStartInSelectedItem), ref everyXMonthDaysStartInSelectedItem, value);
+            }
+        }
+
+        private string dayOfWeekCronExpression;
+        private string dayOfMonthCronExpression;
+
+        private void RefreshDayCronExpression()
+        {
+            if (AnyDay)
+            {
+                dayOfWeekCronExpression = "*";
+                dayOfMonthCronExpression = "?";
+            }
+            else if (EveryXWeekDays)
+            {
+                dayOfWeekCronExpression = $"{EveryXWeekDaysStartInSelectedItem.Id}/{EveryXWeekDaysSelectedItem}";
+                dayOfMonthCronExpression = "?";
+            }
+            else if (EveryXMonthDays)
+            {
+                dayOfWeekCronExpression = "?";
+                dayOfMonthCronExpression = $"{EveryXMonthDaysStartInSelectedItem.Id}/{EveryXMonthDaysSelectedItem}";
+            }
+            else if (SpecificDaysOfWeeks)
+            {
+                dayOfWeekCronExpression = string.Join(",", DayOfWeekRangeCheckedItems
+                    .Where(ci => ci.IsChecked)
+                    .Select(ci => ci.Id)
+                );
+                dayOfMonthCronExpression = "?";
+            }
+            else if (SpecificDaysOfMonths)
+            {
+                dayOfWeekCronExpression = "?";
+                dayOfMonthCronExpression = string.Join(",", DayOfMonthRangeCheckedItems
+                    .Where(ci => ci.IsChecked)
+                    .Select(ci => ci.Id)
+                );
+            }
+            else if (LastDayOfMonth)
+            {
+                dayOfWeekCronExpression = "?";
+                dayOfMonthCronExpression = "L";
+            }
+            else if (LastWeekDayOfMonth)
+            {
+                dayOfWeekCronExpression = "?";
+                dayOfMonthCronExpression = "LW";
+            }
+            else if (LastXDayOfMonth)
+            {
+                dayOfWeekCronExpression = $"{LastXDayOfMonthSelectedItem.Id}L";
+                dayOfMonthCronExpression = "?";
+            }
+            else if (DaysBeforeEndOfMonth)
+            {
+                dayOfWeekCronExpression = "?";
+                dayOfMonthCronExpression = $"L-{DaysBeforeEndOfMonthSelectedItem}";
+            }
+            
+            else
+            {
+                dayOfWeekCronExpression = "TODO";
+                dayOfMonthCronExpression = "TODO";
+            }
+            
 
             OnPropertyChanged(nameof(CronExpression));
         }
