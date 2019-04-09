@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:WpfCronExpressionUITester"
         xmlns:wpfCronExpressionUi="clr-namespace:WpfCronExpressionUI;assembly=WpfCronExpressionUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="800">
+        Title="MainWindow" Height="700" Width="1500">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="TabControlStyle" TargetType="TabControl">
             <Setter Property="Background" Value="AntiqueWhite" />
@@ -17,17 +20,20 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <wpfCronExpressionUi:WpfCronExpressionUIView 
+            x:Name="WpfCronExpressionUiViewInstance"
             TabControlStyle="{DynamicResource TabControlStyle}"
             TabItemStyle="{DynamicResource TabItemStyle}"
             ShowCronExpression="True"
-            MinimumYear="1996"
-            MaximumYear="2036"
             ShowYearTab="False"
-            ShowMonthTab="False"
-            ShowHourTab="False"
-            ShowMinuteTab="False"
             ShowSecondTab="False"
+            CronExpression="{Binding Path=CronExpressionFromControl}"
             />
+
+        <TextBlock Grid.Row="1" Margin="10" MinHeight="10" Text="{Binding CronExpressionFromControl}" />
     </Grid>
 </Window>

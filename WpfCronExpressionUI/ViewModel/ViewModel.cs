@@ -7,8 +7,16 @@ namespace WpfCronExpressionUI.ViewModel
 {
     internal class ViewModel : ViewModelBase
     {
-        public string CronExpression => $"Cron Expression: {secondCronExpression} {minuteCronExpression} {hourCronExpression} {dayOfMonthCronExpression} {monthCronExpression} {dayOfWeekCronExpression} {yearCronExpression}";
+        private string cronExpression;
 
+        public string CronExpression
+        {
+            get { return $"Cron Expression: {secondCronExpression} {minuteCronExpression} {hourCronExpression} {dayOfMonthCronExpression} {monthCronExpression} {dayOfWeekCronExpression} {yearCronExpression}"; }
+            set
+            {
+                // TODO - update control to Cron Express set by this setter
+            }
+        }
 
         public ViewModel()
         {

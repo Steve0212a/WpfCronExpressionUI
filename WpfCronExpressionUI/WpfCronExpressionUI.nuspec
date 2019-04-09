@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Steve Jones</authors>
+    <owners>$author$</owners>
+    <license type="expression">LGPL-3.0-or-later</license>
+    <projectUrl>https://github.com/Steve0212a/WpfCronExpressionUI</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A WPF User control that can be used to create CRON expressions</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>WPF CRON Expression</tags>
+  </metadata>
+</package>

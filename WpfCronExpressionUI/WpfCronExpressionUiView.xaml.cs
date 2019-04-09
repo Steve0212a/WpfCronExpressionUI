@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -372,6 +374,15 @@ namespace WpfCronExpressionUI
 
         #endregion
 
+        public static readonly DependencyProperty CronExpressionProperty = DependencyProperty.Register(
+            "CronExpression", typeof(string), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(string)));
+
+        public string CronExpression
+        {
+            get { return (string) GetValue(CronExpressionProperty); }
+            set { SetValue(CronExpressionProperty, value); }
+        }
+
         #endregion
 
         #region Year Parameters
@@ -417,17 +428,49 @@ namespace WpfCronExpressionUI
             var maximumYearInViewModel = nameof(ViewModel.ViewModel.MaximumYear);
             var bindingMaximumYear = new Binding(maximumYearInViewModel) { Mode = BindingMode.TwoWay };
             SetBinding(MaximumYearProperty, bindingMaximumYear);
+
+            var cronExpressionInViewModel = nameof(ViewModel.ViewModel.CronExpression);
+            var bindingCronExpression = new Binding(cronExpressionInViewModel) { Mode = BindingMode.TwoWay };
+            SetBinding(CronExpressionProperty, bindingCronExpression);
         }
 
         private void SelectFirstVisibleTab()
         {
-            foreach (TabItem item in TabControl.Items)
+            // use dependency properties, not visibilities on the tab
+            if (ShowYearTab)
             {
-                if (item.IsVisible)
-                {
-                    item.IsSelected = true;
-                    break;
-                }
+                TabControl.SelectedItem = TabItemYear;
+                return;
+            }
+
+            if (ShowMonthTab)
+            {
+                TabControl.SelectedItem = TabItemMonth;
+                return;
+            }
+
+            if (ShowDayTab)
+            {
+                TabControl.SelectedItem = TabItemDay;
+                return;
+            }
+
+            if (ShowHourTab)
+            {
+                TabControl.SelectedItem = TabItemHour;
+                return;
+            }
+
+            if (ShowMinuteTab)
+            {
+                TabControl.SelectedItem = TabItemMinute;
+                return;
+            }
+
+            if (ShowSecondTab)
+            {
+                TabControl.SelectedItem = TabItemSecond;
+                return;
             }
         }
 

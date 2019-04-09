@@ -36,40 +36,311 @@
             </TabControl.Resources>
             <TabItem x:Name="TabItemYear" Header="Year" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}" IsSelected="True"
                      Visibility="{Binding ShowYearTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
-                        <RowDefinition Height="Auto" MaxHeight="{Binding MaxHeightYearRange, ElementName=WpfCronExpressionUiViewInstance}" />
-                        <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
-                    </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
+                            <RowDefinition Height="Auto" MaxHeight="{Binding MaxHeightYearRange, ElementName=WpfCronExpressionUiViewInstance}" />
+                            <RowDefinition SharedSizeGroup="YearRows" Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    <RadioButton Grid.Row="0" IsChecked="{Binding AnyYear, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
-                        <TextBlock Text="Any Year" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
+                        <RadioButton Grid.Row="0" IsChecked="{Binding AnyYear, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                            <TextBlock Text="Any Year" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
 
-                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXYears, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowYearsEveryXYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXYearsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXYearsItems}" MinWidth="40" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Year(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXYearsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}" MinWidth="40" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
+                        <RadioButton Grid.Row="1" IsChecked="{Binding EveryXYears, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowYearsEveryXYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXYearsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXYearsItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Year(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXYearsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <RadioButton Grid.Row="2" IsChecked="{Binding SpecificYears, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowYearsSpecificYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Years" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
+                        <RadioButton Grid.Row="2" IsChecked="{Binding SpecificYears, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowYearsSpecificYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Years" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
 
-                    <ScrollViewer Grid.Row="3" Margin="30,0,0,10" MaxHeight="{Binding MaxHeightYearRange, ElementName=WpfCronExpressionUiViewInstance}"
-                                  Visibility="{Binding ShowYearsSpecificYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                  >
-                        <ItemsControl ItemsSource="{Binding YearRangeCheckedItems}">
+                        <ScrollViewer Grid.Row="3" Margin="30,0,0,10" MaxHeight="{Binding MaxHeightYearRange, ElementName=WpfCronExpressionUiViewInstance}"
+                                      Visibility="{Binding ShowYearsSpecificYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl ItemsSource="{Binding YearRangeCheckedItems}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="6" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                                  Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <RadioButton Grid.Row="4" IsChecked="{Binding YearRange, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowYearsYearRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every year between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding YearRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding YearRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem x:Name="TabItemMonth" Header="Month" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                     Visibility="{Binding ShowMonthTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <RadioButton Grid.Row="0" IsChecked="{Binding AnyMonth, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                            <TextBlock Text="Any Month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="1" IsChecked="{Binding EveryXMonths, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowMonthsEveryXMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXMonthsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthsItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Month(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXMonthsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="2" IsChecked="{Binding SpecificMonths, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowMonthsSpecificMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Months" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <ItemsControl ItemsSource="{Binding MonthRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
+                                      Visibility="{Binding ShowMonthsSpecificMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="3" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                              Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <RadioButton Grid.Row="4" IsChecked="{Binding MonthRange, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowMonthsMonthRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every month between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding MonthRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding MonthRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem x:Name="TabItemDay" Header="Day" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                     Visibility="{Binding ShowDayTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <RadioButton Grid.Row="0" IsChecked="{Binding AnyDay, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                            <TextBlock Text="Any Day" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="1" IsChecked="{Binding EveryXWeekDays, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysEveryXWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXWeekDaysSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXWeekDaysItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Day(s) starting on" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXWeekDaysStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="2" IsChecked="{Binding EveryXMonthDays, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysEveryXMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXMonthDaysSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthDaysItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Day(s) starting on the" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXMonthDaysStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayOfMonthRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="of the month." Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="3" IsChecked="{Binding SpecificDaysOfWeeks, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysSpecificDaysOfWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Day of Week" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <ItemsControl ItemsSource="{Binding DayOfWeekRangeCheckedItems}" Grid.Row="4" Margin="30,0,0,10"
+                                      Visibility="{Binding ShowDaysSpecificDaysOfWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="4" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                              Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <RadioButton Grid.Row="5" IsChecked="{Binding SpecificDaysOfMonths, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysSpecificDaysOfMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Day of Month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <ItemsControl ItemsSource="{Binding DayOfMonthRangeCheckedItems}" Grid.Row="6" Margin="30,0,0,10"
+                                      Visibility="{Binding ShowDaysSpecificDaysOfMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="11" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                              Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <RadioButton Grid.Row="7" IsChecked="{Binding LastDayOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysLastDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="On the last day of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="8" IsChecked="{Binding LastWeekDayOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysLastWeekDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="On the last week day of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="9" IsChecked="{Binding LastXDayOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysLastXDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="On the last" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding LastXDayOfMonthSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="10" IsChecked="{Binding DaysBeforeEndOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowDaysDaysBeforeEndOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox SelectedItem="{Binding DaysBeforeEndOfMonthSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthDaysItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="day(s) before the end of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem x:Name="TabItemHour" Header="Hour" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                     Visibility="{Binding ShowHourTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <RadioButton Grid.Row="0" IsChecked="{Binding AnyHour, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                            <TextBlock Text="Any Hour" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="1" IsChecked="{Binding EveryXHours, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowHoursEveryXHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXHoursSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXHoursItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Hour(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXHoursStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Grid.Row="2" IsChecked="{Binding SpecificHours, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowHoursSpecificHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Hours" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
+
+                        <ItemsControl ItemsSource="{Binding HourRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
+                                      Visibility="{Binding ShowHoursSpecificHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="6" />
@@ -82,385 +353,166 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </ScrollViewer>
 
-                    <RadioButton Grid.Row="4" IsChecked="{Binding YearRange, Mode=TwoWay}" GroupName="YearGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowYearsYearRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every year between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding YearRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}" MinWidth="40" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding YearRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}" MinWidth="40" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-                </Grid>
-            </TabItem>
-            <TabItem x:Name="TabItemMonth" Header="Month" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                Visibility="{Binding ShowMonthTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition SharedSizeGroup="MonthRows" Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <RadioButton Grid.Row="0" IsChecked="{Binding AnyMonth, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
-                        <TextBlock Text="Any Month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXMonths, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowMonthsEveryXMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXMonthsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthsItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Month(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXMonthsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="2" IsChecked="{Binding SpecificMonths, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowMonthsSpecificMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Months" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <ItemsControl ItemsSource="{Binding MonthRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
-                                  Visibility="{Binding ShowMonthsSpecificMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="3" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
-                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <RadioButton Grid.Row="4" IsChecked="{Binding MonthRange, Mode=TwoWay}" GroupName="MonthGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowMonthsMonthRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every month between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding MonthRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding MonthRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-                </Grid>
-            </TabItem>
-
-
-            <TabItem x:Name="TabItemDay" Header="Day" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                Visibility="{Binding ShowDayTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="DayRows" Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <RadioButton Grid.Row="0" IsChecked="{Binding AnyDay, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
-                        <TextBlock Text="Any Day" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXWeekDays, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysEveryXWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXWeekDaysSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXWeekDaysItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Day(s) starting on" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXWeekDaysStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="2" IsChecked="{Binding EveryXMonthDays, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysEveryXMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXMonthDaysSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthDaysItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Day(s) starting on the" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXMonthDaysStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayOfMonthRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="of the month." Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="3" IsChecked="{Binding SpecificDaysOfWeeks, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysSpecificDaysOfWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Day of Week" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <ItemsControl ItemsSource="{Binding DayOfWeekRangeCheckedItems}" Grid.Row="4" Margin="30,0,0,10"
-                                  Visibility="{Binding ShowDaysSpecificDaysOfWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="4" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
-                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <RadioButton Grid.Row="5" IsChecked="{Binding SpecificDaysOfMonths, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysSpecificDaysOfMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Day of Month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <ItemsControl ItemsSource="{Binding DayOfMonthRangeCheckedItems}" Grid.Row="6" Margin="30,0,0,10"
-                                  Visibility="{Binding ShowDaysSpecificDaysOfMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="11" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
-                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <RadioButton Grid.Row="7" IsChecked="{Binding LastDayOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysLastDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="On the last day of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="8" IsChecked="{Binding LastWeekDayOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysLastWeekDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="On the last week day of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="9" IsChecked="{Binding LastXDayOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysLastXDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="On the last" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding LastXDayOfMonthSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="10" IsChecked="{Binding DaysBeforeEndOfMonth, Mode=TwoWay}" GroupName="DayGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowDaysDaysBeforeEndOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox SelectedItem="{Binding DaysBeforeEndOfMonthSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthDaysItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="day(s) before the end of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                        </StackPanel>
-                    </RadioButton>
-                </Grid>
-            </TabItem>
-
-            <TabItem x:Name="TabItemHour" Header="Hour" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                Visibility="{Binding ShowHourTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition SharedSizeGroup="HourRows" Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <RadioButton Grid.Row="0" IsChecked="{Binding AnyHour, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
-                        <TextBlock Text="Any Hour" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXHours, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowHoursEveryXHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXHoursSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXHoursItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Hour(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXHoursStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-
-                    <RadioButton Grid.Row="2" IsChecked="{Binding SpecificHours, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowHoursSpecificHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Hours" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
-
-                    <ItemsControl ItemsSource="{Binding HourRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
-                                  Visibility="{Binding ShowHoursSpecificHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="6" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
-                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <RadioButton Grid.Row="4" IsChecked="{Binding HourRange, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowHoursHourRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every hour between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding HourRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding HourRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-                </Grid>
+                        <RadioButton Grid.Row="4" IsChecked="{Binding HourRange, Mode=TwoWay}" GroupName="HourGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowHoursHourRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every hour between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding HourRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding HourRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" MinWidth="40" DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
             <TabItem x:Name="TabItemMinute" Header="Minute" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                Visibility="{Binding ShowMinuteTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
-                    </Grid.RowDefinitions>
+                     Visibility="{Binding ShowMinuteTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition SharedSizeGroup="MinuteRows" Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    <RadioButton Grid.Row="0" IsChecked="{Binding AnyMinute, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
-                        <TextBlock Text="Any Minute" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
+                        <RadioButton Grid.Row="0" IsChecked="{Binding AnyMinute, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                            <TextBlock Text="Any Minute" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
 
-                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXMinutes, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowMinutesEveryXMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXMinutesSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMinutesItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Minute(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXMinutesStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
+                        <RadioButton Grid.Row="1" IsChecked="{Binding EveryXMinutes, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowMinutesEveryXMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXMinutesSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMinutesItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Minute(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXMinutesStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <RadioButton Grid.Row="2" IsChecked="{Binding SpecificMinutes, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowMinutesSpecificMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Minutes" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
+                        <RadioButton Grid.Row="2" IsChecked="{Binding SpecificMinutes, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowMinutesSpecificMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Minutes" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
 
-                    <ItemsControl ItemsSource="{Binding MinuteRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
-                                  Visibility="{Binding ShowMinutesSpecificMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="10" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
-                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding MinuteRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
+                                      Visibility="{Binding ShowMinutesSpecificMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="10" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                              Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                    <RadioButton Grid.Row="4" IsChecked="{Binding MinuteRange, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowMinutesMinuteRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every minute between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding MinuteRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding MinuteRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-                </Grid>
+                        <RadioButton Grid.Row="4" IsChecked="{Binding MinuteRange, Mode=TwoWay}" GroupName="MinuteGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowMinutesMinuteRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every minute between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding MinuteRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding MinuteRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
             <TabItem x:Name="TabItemSecond" Header="Second" Style="{Binding TabItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                Visibility="{Binding ShowSecondTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
-                        <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
-                    </Grid.RowDefinitions>
+                     Visibility="{Binding ShowSecondTab, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
+                            <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition SharedSizeGroup="SecondRows" Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    <RadioButton Grid.Row="0" IsChecked="{Binding AnySecond, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
-                        <TextBlock Text="Any Second" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
+                        <RadioButton Grid.Row="0" IsChecked="{Binding AnySecond, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}">
+                            <TextBlock Text="Any Second" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
 
-                    <RadioButton Grid.Row="1" IsChecked="{Binding EveryXSeconds, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowSecondsEveryXSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXSecondsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXSecondsItems}" MinWidth="40"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="Second(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding EveryXSecondsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}" MinWidth="40" DisplayMemberPath="Description"
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
+                        <RadioButton Grid.Row="1" IsChecked="{Binding EveryXSeconds, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowSecondsEveryXSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXSecondsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXSecondsItems}" MinWidth="40"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Second(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding EveryXSecondsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
 
-                    <RadioButton Grid.Row="2" IsChecked="{Binding SpecificSeconds, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowSecondsSpecificSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <TextBlock Text="Specific Seconds" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                    </RadioButton>
+                        <RadioButton Grid.Row="2" IsChecked="{Binding SpecificSeconds, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowSecondsSpecificSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Specific Seconds" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                        </RadioButton>
 
-                    <ItemsControl ItemsSource="{Binding SecondRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
-                                  Visibility="{Binding ShowSecondsSpecificSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="10" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
-                                          Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding SecondRangeCheckedItems}" Grid.Row="3" Margin="30,0,0,10"
+                                      Visibility="{Binding ShowSecondsSpecificSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="10" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Description}" IsChecked="{Binding IsChecked}" Margin="4"
+                                              Style="{Binding CheckboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                    <RadioButton Grid.Row="4" IsChecked="{Binding SecondRange, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center" Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                                 Visibility="{Binding ShowSecondsSecondRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Every second between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding SecondRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                            <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                            <ComboBox SelectedItem="{Binding SecondRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}" MinWidth="40" DisplayMemberPath="Description" 
-                                      Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}"/>
-                        </StackPanel>
-                    </RadioButton>
-                </Grid>
+                        <RadioButton Grid.Row="4" IsChecked="{Binding SecondRange, Mode=TwoWay}" GroupName="SecondGroup" Margin="5" VerticalContentAlignment="Center"
+                                     Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
+                                     Visibility="{Binding ShowSecondsSecondRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every second between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding SecondRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <ComboBox SelectedItem="{Binding SecondRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}" MinWidth="40"
+                                          DisplayMemberPath="Description"
+                                          Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                            </StackPanel>
+                        </RadioButton>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
 
         <TextBlock Grid.Row="1" Text="{Binding CronExpression}" Margin="0,5"
                    HorizontalAlignment="Center"
+                   Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}"
                    Visibility="{Binding ElementName=WpfCronExpressionUiViewInstance, Path=ShowCronExpression, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>
