@@ -8,13 +8,13 @@
              Loaded="WpfCronExpressionUIView_OnLoaded"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="700">
-    <UserControl.DataContext>
-        <viewModel:ViewModel />
-    </UserControl.DataContext>
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="Grid">
+        <Grid.DataContext>
+            <viewModel:ViewModel />
+        </Grid.DataContext>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -510,9 +510,13 @@
             </TabItem>
         </TabControl>
 
-        <TextBlock Grid.Row="1" Text="{Binding CronExpression}" Margin="0,5"
-                   HorizontalAlignment="Center"
-                   Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}"
-                   Visibility="{Binding ElementName=WpfCronExpressionUiViewInstance, Path=ShowCronExpression, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,5"
+                    Visibility="{Binding ElementName=WpfCronExpressionUiViewInstance, Path=ShowCronExpression, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="Cron Expression:" Margin="0,0,10,0"
+                       Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+            <TextBlock  Text="{Binding CronExpression}" 
+                        Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+        </StackPanel>
     </Grid>
 </UserControl>

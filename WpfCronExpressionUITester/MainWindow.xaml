@@ -31,9 +31,9 @@
             ShowCronExpression="True"
             ShowYearTab="False"
             ShowSecondTab="False"
-            CronExpression="{Binding Path=CronExpressionFromControl}"
+            CronExpression="{Binding Path=CronExpressionFromControl, Mode=TwoWay}"
             />
 
-        <TextBlock Grid.Row="1" Margin="10" MinHeight="10" Text="{Binding CronExpressionFromControl}" />
+        <TextBlock Grid.Row="1" Padding="10" MinHeight="10" Text="{Binding CronExpressionFromControl}" Background="Black" Foreground="Red" />
     </Grid>
 </Window>

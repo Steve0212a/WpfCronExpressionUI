@@ -429,9 +429,29 @@ namespace WpfCronExpressionUI
             var bindingMaximumYear = new Binding(maximumYearInViewModel) { Mode = BindingMode.TwoWay };
             SetBinding(MaximumYearProperty, bindingMaximumYear);
 
-            var cronExpressionInViewModel = nameof(ViewModel.ViewModel.CronExpression);
-            var bindingCronExpression = new Binding(cronExpressionInViewModel) { Mode = BindingMode.TwoWay };
-            SetBinding(CronExpressionProperty, bindingCronExpression);
+            //var cronExpressionInViewModel = nameof(ViewModel.ViewModel.CronExpression);
+            //var bindingCronExpression = new Binding(cronExpressionInViewModel) { Mode = BindingMode.TwoWay };
+            //SetBinding(CronExpressionProperty, bindingCronExpression);
+
+            // hook up listener
+            if (Grid.DataContext is ViewModel.ViewModel viewModel)
+            {
+                viewModel.PropertyChanged += ViewModel_PropertyChanged;
+                
+                // initialize
+                CronExpression = viewModel.CronExpression;
+            }
+        }
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ViewModel.ViewModel viewModel)
+            {
+                if (e.PropertyName == nameof(ViewModel.ViewModel.CronExpression))
+                {
+                    CronExpression = viewModel.CronExpression;
+                }
+            }
         }
 
         private void SelectFirstVisibleTab()
@@ -477,6 +497,13 @@ namespace WpfCronExpressionUI
         private void WpfCronExpressionUIView_OnLoaded(object sender, RoutedEventArgs e)
         {
             SelectFirstVisibleTab();
+
+            // initialize
+            if (Grid.DataContext is ViewModel.ViewModel viewModel)
+            {
+                // initialize
+                CronExpression = viewModel.CronExpression;
+            }
         }
     }
 }

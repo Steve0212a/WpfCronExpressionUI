@@ -11,7 +11,7 @@ namespace WpfCronExpressionUI.ViewModel
 
         public string CronExpression
         {
-            get { return $"Cron Expression: {secondCronExpression} {minuteCronExpression} {hourCronExpression} {dayOfMonthCronExpression} {monthCronExpression} {dayOfWeekCronExpression} {yearCronExpression}"; }
+            get { return $"{secondCronExpression} {minuteCronExpression} {hourCronExpression} {dayOfMonthCronExpression} {monthCronExpression} {dayOfWeekCronExpression} {yearCronExpression}"; }
             set
             {
                 // TODO - update control to Cron Express set by this setter
@@ -640,6 +640,7 @@ namespace WpfCronExpressionUI.ViewModel
             {
                 // EveryXMonthDaysStartInSelectedItem
                 Set(nameof(EveryXMonthDaysStartInSelectedItem), ref everyXMonthDaysStartInSelectedItem, value);
+                RefreshDayCronExpression();
             }
         }
 
