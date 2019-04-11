@@ -372,10 +372,14 @@ namespace WpfCronExpressionUI.ViewModel
             else if (SpecificMonths)
                 monthCronExpression = string.Join(",", MonthRangeCheckedItems
                     .Where(ci => ci.IsChecked)
-                    .Select(ci => ci.Id)
+                    .Select(ci => GetMonthAbbreviationFromIndex((int)ci.Id))
                 );
             else if (MonthRange)
-                monthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
+            {
+                var month1 = GetMonthAbbreviationFromIndex((int)MonthRangeStartSelectedItem.Id);
+                var month2 = GetMonthAbbreviationFromIndex((int)MonthRangeEndSelectedItem.Id);
+                monthCronExpression = $"{month1}-{month2}";
+            }
 
             // clear errors since we are rebuilding the expression
             ErrorMessage = null;
@@ -675,7 +679,7 @@ namespace WpfCronExpressionUI.ViewModel
             {
                 dayOfWeekCronExpression = string.Join(",", DayOfWeekRangeCheckedItems
                     .Where(ci => ci.IsChecked)
-                    .Select(ci => ci.Id)
+                    .Select(ci => GetDayOfWeekAbbreviationFromIndex((int)ci.Id))
                 );
                 dayOfMonthCronExpression = "?";
             }
@@ -1239,6 +1243,10 @@ namespace WpfCronExpressionUI.ViewModel
         {
             try
             {
+                // fill in blank expression if none is specified
+                if (string.IsNullOrWhiteSpace(expression))
+                    expression = "0 0 0 ? * * *";
+
                 // six parts = no year, seven parts includes year
                 var parts = expression.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                 if ((parts.Length != 6) && (parts.Length != 7))
@@ -1714,7 +1722,7 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        private readonly string[] monthNames = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedMonthNames
+        private readonly string[] monthNames = CultureInfo.InvariantCulture.DateTimeFormat.AbbreviatedMonthNames
             .Where(mn => !string.IsNullOrWhiteSpace(mn))
             .Select(mn => mn.ToUpper())
             .ToArray();
@@ -1726,7 +1734,19 @@ namespace WpfCronExpressionUI.ViewModel
             return Array.IndexOf(monthNames, name.ToUpper()) + 1;
         }
 
-        private readonly string[] dayNames = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames
+        private string GetMonthAbbreviationFromIndex(int index)
+        {
+            try
+            {
+                return monthNames[index - 1];
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private readonly string[] dayNames = CultureInfo.InvariantCulture.DateTimeFormat.AbbreviatedDayNames
             .Where(dn => !string.IsNullOrWhiteSpace(dn))
             .Select(dn => dn.ToUpper())
             .ToArray();
@@ -1736,6 +1756,18 @@ namespace WpfCronExpressionUI.ViewModel
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException();
             return Array.IndexOf(dayNames, name.ToUpper()) + 1;
+        }
+
+        private string GetDayOfWeekAbbreviationFromIndex(int index)
+        {
+            try
+            {
+                return dayNames[index - 1];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         #endregion
