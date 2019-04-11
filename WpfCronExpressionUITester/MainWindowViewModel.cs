@@ -9,9 +9,9 @@ using System.Windows;
 
 namespace WpfCronExpressionUITester
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string cronExpressionFromControl;
+        private string cronExpressionFromControl = "3 0 0 ? * * *";
 
         public string CronExpressionFromControl
         {

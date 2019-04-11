@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TabControl x:Name="TabControl" Grid.Row="0" Style="{Binding TabControlStyle, ElementName=WpfCronExpressionUiViewInstance}">
             <TabControl.Resources>
@@ -511,12 +512,16 @@
         </TabControl>
 
 
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,5"
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,5" Orientation="Horizontal"
                     Visibility="{Binding ElementName=WpfCronExpressionUiViewInstance, Path=ShowCronExpression, Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock Text="Cron Expression:" Margin="0,0,10,0"
                        Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
             <TextBlock  Text="{Binding CronExpression}" 
                         Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
         </StackPanel>
+
+        <TextBlock Grid.Row="2" Text="{Binding ErrorMessage}" 
+                   Foreground="Red" HorizontalAlignment="Center"
+                    Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
     </Grid>
 </UserControl>

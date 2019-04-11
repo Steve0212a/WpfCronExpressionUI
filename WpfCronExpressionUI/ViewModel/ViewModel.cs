@@ -14,13 +14,15 @@ namespace WpfCronExpressionUI.ViewModel
             get { return $"{secondCronExpression} {minuteCronExpression} {hourCronExpression} {dayOfMonthCronExpression} {monthCronExpression} {dayOfWeekCronExpression} {yearCronExpression}"; }
             set
             {
-                // TODO - update control to Cron Express set by this setter
+                ParseCronExpression(value);
+                OnPropertyChanged(nameof(CronExpression));
             }
         }
 
         public ViewModel()
         {
             RefreshYearCronExpression();
+            RefreshYearRanges();
             RefreshMonthRanges();
             RefreshHourRanges();
             RefreshMinuteRanges();
@@ -208,6 +210,9 @@ namespace WpfCronExpressionUI.ViewModel
             else if (YearRange)
                 yearCronExpression = $"{YearRangeStartSelectedItem}-{YearRangeEndSelectedItem}";
 
+
+            // clear errors since we are rebuilding the expression
+            ErrorMessage = null;
             OnPropertyChanged(nameof(CronExpression));
         }
 
@@ -372,6 +377,8 @@ namespace WpfCronExpressionUI.ViewModel
             else if (MonthRange)
                 monthCronExpression = $"{MonthRangeStartSelectedItem.Id}-{MonthRangeEndSelectedItem.Id}";
 
+            // clear errors since we are rebuilding the expression
+            ErrorMessage = null;
             OnPropertyChanged(nameof(CronExpression));
         }
 
@@ -700,14 +707,14 @@ namespace WpfCronExpressionUI.ViewModel
                 dayOfWeekCronExpression = "?";
                 dayOfMonthCronExpression = $"L-{DaysBeforeEndOfMonthSelectedItem}";
             }
-            
             else
             {
                 dayOfWeekCronExpression = "TODO";
                 dayOfMonthCronExpression = "TODO";
             }
-            
 
+            // clear errors since we are rebuilding the expression
+            ErrorMessage = null;
             OnPropertyChanged(nameof(CronExpression));
         }
 
@@ -873,6 +880,8 @@ namespace WpfCronExpressionUI.ViewModel
             else if (HourRange)
                 hourCronExpression = $"{HourRangeStartSelectedItem.Id}-{HourRangeEndSelectedItem.Id}";
 
+            // clear errors since we are rebuilding the expression
+            ErrorMessage = null;
             OnPropertyChanged(nameof(CronExpression));
         }
 
@@ -1038,6 +1047,8 @@ namespace WpfCronExpressionUI.ViewModel
             else if (MinuteRange)
                 minuteCronExpression = $"{MinuteRangeStartSelectedItem.Id}-{MinuteRangeEndSelectedItem.Id}";
 
+            // clear errors since we are rebuilding the expression
+            ErrorMessage = null;
             OnPropertyChanged(nameof(CronExpression));
         }
 
@@ -1203,7 +1214,528 @@ namespace WpfCronExpressionUI.ViewModel
             else if (SecondRange)
                 secondCronExpression = $"{SecondRangeStartSelectedItem.Id}-{SecondRangeEndSelectedItem.Id}";
 
+            // clear errors since we are rebuilding the expression
+            ErrorMessage = null;
             OnPropertyChanged(nameof(CronExpression));
+        }
+
+        #endregion
+
+        private string errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set
+            {
+                // ErrorMessage
+                Set(nameof(ErrorMessage), ref errorMessage, value);
+            }
+        }
+
+        #region Parse Expression
+
+        private void ParseCronExpression(string expression)
+        {
+            try
+            {
+                // six parts = no year, seven parts includes year
+                var parts = expression.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                if ((parts.Length != 6) && (parts.Length != 7))
+                    throw new Exception("Incorrent number of parts in Cron expression");
+
+
+                // parse the parts
+                ParseSecondsPart(parts[0]);
+                ParseMinutesPart(parts[1]);
+                ParseHoursPart(parts[2]);
+                ParseDayOfMonthPart(parts[3]);
+                ParseMonthsPart(parts[4]);
+                ParseDayOfWeeksPart(parts[5]);
+                ParseYearsPart(parts.Length == 7 ? parts[6] : "*");
+
+                // no errors, good to go
+                ErrorMessage = null;
+                OnPropertyChanged(nameof(CronExpression));
+            }
+            catch (Exception exc)
+            {
+                ErrorMessage = exc.Message;
+            }
+        }
+
+        private void ParseSecondsPart(string part)
+        {
+            const string partName = "Seconds";
+            if (part == "*")
+                AnySecond = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXSeconds = true;
+                EveryXSecondsSelectedItem = slashedPart2;
+                var item = SecondRangeItems.FirstOrDefault(s => s.Id == slashedPart1);
+                EveryXSecondsStartInSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else if (IsDashedPartLongs(part, partName, out var dashedPart1, out var dashedPart2))
+            {
+                SecondRange = true;
+                var itemStart = SecondRangeItems.FirstOrDefault(s => s.Id == dashedPart1);
+                var itemEnd = SecondRangeItems.FirstOrDefault(s => s.Id == dashedPart2);
+                SecondRangeStartSelectedItem = itemStart ?? throw new Exception($"Unable to parse {partName}");
+                SecondRangeEndSelectedItem = itemEnd ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else
+            {
+                var selectedSeconds = GetListOfLongsFromCommaSeparatedList(part, partName);
+
+                // specific Seconds
+                SpecificSeconds = true;
+                SecondRangeCheckedItems.ForEach(sci => { sci.IsChecked = selectedSeconds.Contains((int) sci.Id); });
+            }
+        }
+
+        private void ParseMinutesPart(string part)
+        {
+            const string partName = "Minutes";
+            if (part == "*")
+                AnyMinute = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXMinutes = true;
+                EveryXMinutesSelectedItem = slashedPart2;
+                var item = MinuteRangeItems.FirstOrDefault(s => s.Id == slashedPart1);
+                EveryXMinutesStartInSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else if (IsDashedPartLongs(part, partName, out var dashedPart1, out var dashedPart2))
+            {
+                MinuteRange = true;
+                var itemStart = MinuteRangeItems.FirstOrDefault(s => s.Id == dashedPart1);
+                var itemEnd = MinuteRangeItems.FirstOrDefault(s => s.Id == dashedPart2);
+                MinuteRangeStartSelectedItem = itemStart ?? throw new Exception($"Unable to parse {partName}");
+                MinuteRangeEndSelectedItem = itemEnd ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else
+            {
+                var selectedMinutes = GetListOfLongsFromCommaSeparatedList(part, partName);
+
+                // specific Minutes
+                SpecificMinutes = true;
+                MinuteRangeCheckedItems.ForEach(sci => { sci.IsChecked = selectedMinutes.Contains((int)sci.Id); });
+            }
+        }
+
+        private void ParseHoursPart(string part)
+        {
+            const string partName = "Hours";
+            if (part == "*")
+                AnyHour = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXHours = true;
+                EveryXHoursSelectedItem = slashedPart2;
+                var item = HourRangeItems.FirstOrDefault(s => s.Id == slashedPart1);
+                EveryXHoursStartInSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else if (IsDashedPartLongs(part, partName, out var dashedPart1, out var dashedPart2))
+            {
+                HourRange = true;
+                var itemStart = HourRangeItems.FirstOrDefault(s => s.Id == dashedPart1);
+                var itemEnd = HourRangeItems.FirstOrDefault(s => s.Id == dashedPart2);
+                HourRangeStartSelectedItem = itemStart ?? throw new Exception($"Unable to parse {partName}");
+                HourRangeEndSelectedItem = itemEnd ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else
+            {
+                var selectedHours = GetListOfLongsFromCommaSeparatedList(part, partName);
+
+                // specific Hours
+                SpecificHours = true;
+                HourRangeCheckedItems.ForEach(sci => { sci.IsChecked = selectedHours.Contains((int)sci.Id); });
+            }
+        }
+
+        private void ParseDayOfMonthPart(string part)
+        {
+            if (part == "?")
+                return;
+
+            const string partName = "Day Of Month";
+            if (part == "*")
+                AnyDay = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXMonthDays = true;
+                EveryXMonthDaysSelectedItem = slashedPart2;
+                var item = DayOfMonthRangeItems.FirstOrDefault(s => s.Id == slashedPart1);
+                EveryXMonthDaysStartInSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+            }
+            // TODO
+            //else if (IsDashedPartLongs(part, partName, out var dashedPart1, out var dashedPart2))
+            //{
+            //    DayOfMonthRange = true;
+            //    var itemStart = DayOfMonthRangeItems.FirstOrDefault(s => s.Id == dashedPart1);
+            //    var itemEnd = DayOfMonthRangeItems.FirstOrDefault(s => s.Id == dashedPart2);
+            //    DayOfMonthRangeStartSelectedItem = itemStart ?? throw new Exception($"Unable to parse {partName}");
+            //    DayOfMonthRangeEndSelectedItem = itemEnd ?? throw new Exception($"Unable to parse {partName}");
+            //}
+            else if ("L".Equals(part, StringComparison.InvariantCultureIgnoreCase))
+            {
+                // last day of month
+                LastDayOfMonth = true;
+            }
+            else if ("LW".Equals(part, StringComparison.InvariantCultureIgnoreCase))
+            {
+                // last day of month
+                LastWeekDayOfMonth = true;
+            }
+            else if (part.StartsWith("L-") || part.Contains("l-"))
+            {
+                int daysBefore = 0;
+                try
+                {
+                    // x days before last day of month...
+                    daysBefore = int.Parse(part.Substring(2));
+                }
+                catch
+                {
+                    throw new Exception($"Unable to parse \"{partName}\"");
+                }
+
+                // validate item exists in combo box
+                if (!EveryXMonthDaysItems.Contains(daysBefore))
+                    throw new Exception($"Unable to parse \"{partName}\" - days before not in list");
+
+                // set it
+                DaysBeforeEndOfMonth = true;
+                DaysBeforeEndOfMonthSelectedItem = daysBefore;
+            }
+            else
+            {
+                var selectedDaysOfMonth = GetListOfLongsFromCommaSeparatedList(part, partName);
+
+                // specific days of the month
+                SpecificDaysOfMonths = true;
+                DayOfMonthRangeCheckedItems.ForEach(domci => { domci.IsChecked = selectedDaysOfMonth.Contains((int)domci.Id); });
+            }
+        }
+
+        private void ParseMonthsPart(string part)
+        {
+            const string partName = "Months";
+            if (part == "*")
+                AnyMonth = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXMonths = true;
+                EveryXMonthsSelectedItem = slashedPart2;
+                var item = MonthRangeItems.FirstOrDefault(s => s.Id == slashedPart1);
+                EveryXMonthsStartInSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else if (part.IndexOf('-') >= 0)
+            {
+                if (IsDashedPartLongs(part, partName, out var dashedPart1, out var dashedPart2, false))
+                {
+                    MonthRange = true;
+                    var itemStart = MonthRangeItems.FirstOrDefault(s => s.Id == dashedPart1);
+                    var itemEnd = MonthRangeItems.FirstOrDefault(s => s.Id == dashedPart2);
+                    MonthRangeStartSelectedItem = itemStart ?? throw new Exception($"Unable to parse {partName}");
+                    MonthRangeEndSelectedItem = itemEnd ?? throw new Exception($"Unable to parse {partName}");
+                } 
+                else if (IsDashedPartStrings(part, partName, out var dashedStringPart1, out var dashedStringPart2))
+                {
+                    MonthRange = true;
+                    var itemStartIndex = GetMonthIndexFromName(dashedStringPart1);
+                    var itemEndIndex = GetMonthIndexFromName(dashedStringPart2);
+                    var itemStart = MonthRangeItems.FirstOrDefault(s => s.Id == itemStartIndex);
+                    var itemEnd = MonthRangeItems.FirstOrDefault(s => s.Id == itemEndIndex);
+                    MonthRangeStartSelectedItem = itemStart ?? throw new Exception($"Unable to parse {partName}");
+                    MonthRangeEndSelectedItem = itemEnd ?? throw new Exception($"Unable to parse {partName}");
+                }
+                else
+                {
+                    throw new Exception($"Invalid expression in {partName}");
+                }
+            }
+            else
+            {
+                SpecificMonths = true;
+                List<int> selectedMonthIndexes;
+                try
+                {
+                    // assume we have a list of numbers
+                    selectedMonthIndexes = GetListOfLongsFromCommaSeparatedList(part, partName)
+                        .Select(m => (int)m)
+                        .ToList();
+                }
+                catch
+                {
+                    // not a list of numbers, try a list of month names
+                    selectedMonthIndexes = GetListOfStringsFromCommaSeparatedList(part, partName)
+                            .Select(GetMonthIndexFromName)
+                            .ToList();
+                }
+
+                // validate
+                if (selectedMonthIndexes.Any(m => m < 1 || m > 12))
+                {
+                    throw new Exception($"Invalid expression in {partName}");
+                }
+
+                // specific Months
+                MonthRangeCheckedItems.ForEach(sci => { sci.IsChecked = selectedMonthIndexes.Contains((int)sci.Id); });
+            }
+        }
+
+        private void ParseDayOfWeeksPart(string part)
+        {
+            if (part == "?")
+                return;
+
+            const string partName = "Day Of Month";
+            if (part == "*")
+                AnyDay = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXWeekDays = true;
+                EveryXWeekDaysSelectedItem = slashedPart2;
+                var item = DayRangeItems.FirstOrDefault(s => s.Id == slashedPart1);
+                EveryXWeekDaysStartInSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+            }
+            else if (part.ToUpper().EndsWith("L"))
+            {
+                int dayOfWeek = 0;
+                try
+                {
+                    // x days before last day of month...
+                    dayOfWeek = int.Parse(part.Substring(0,part.Length-1));
+                }
+                catch
+                {
+                    throw new Exception($"Unable to parse \"{partName}\"");
+                }
+
+                var item = DayRangeItems.FirstOrDefault(s => s.Id == dayOfWeek);
+                LastXDayOfMonthSelectedItem = item ?? throw new Exception($"Unable to parse {partName}");
+
+                LastXDayOfMonth = true;
+            }
+            else
+            {
+                SpecificDaysOfWeeks = true;
+                List<int> selectedDayOfWeekIndexes;
+                try
+                {
+                    // assume we have a list of numbers
+                    selectedDayOfWeekIndexes = GetListOfLongsFromCommaSeparatedList(part, partName)
+                        .Select(m => (int)m)
+                        .ToList();
+                }
+                catch
+                {
+                    // not a list of numbers, try a list of month names
+                    selectedDayOfWeekIndexes = GetListOfStringsFromCommaSeparatedList(part, partName)
+                        .Select(GetDayIndexFromName)
+                        .ToList();
+                }
+
+                // validate
+                if (selectedDayOfWeekIndexes.Any(m => m < 1 || m > 7))
+                {
+                    throw new Exception($"Invalid expression in {partName}");
+                }
+
+                // specific Months
+                DayOfWeekRangeCheckedItems.ForEach(dci => { dci.IsChecked = selectedDayOfWeekIndexes.Contains((int)dci.Id); });
+            }
+        }
+
+        private void ParseYearsPart(string part)
+        {
+            const string partName = "Years";
+            if (part == "*")
+                AnyYear = true;
+            else if (IsSlashedPart(part, partName, out var slashedPart1, out var slashedPart2))
+            {
+                EveryXYears = true;
+                EveryXYearsSelectedItem = slashedPart2;
+                EveryXYearsStartInSelectedItem = slashedPart1;
+            }
+            else if (IsDashedPartLongs(part, partName, out var dashedPart1, out var dashedPart2))
+            {
+                YearRange = true;
+                YearRangeStartSelectedItem = dashedPart1;
+                YearRangeEndSelectedItem = dashedPart2;
+            }
+            else
+            {
+                var selectedYears = GetListOfLongsFromCommaSeparatedList(part, partName);
+
+                // specific Years
+                SpecificYears = true;
+                YearRangeCheckedItems.ForEach(sci => { sci.IsChecked = selectedYears.Contains((int)sci.Id); });
+            }
+        }
+
+        /// <summary>
+        /// look for 5/6 syntax
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="partName"></param>
+        /// <param name="part1"></param>
+        /// <param name="part2"></param>
+        /// <returns></returns>
+        private bool IsSlashedPart(string part, string partName, out int part1, out int part2)
+        {
+            // initialize
+            part1 = 0;
+            part2 = 0;
+
+            var parts = part.Split(new[] { '/', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 1)
+                return false;
+            if (parts.Length != 2)
+                throw new Exception($"Invalid expression in {partName}");
+
+            // two parts, try to parse
+            if (!int.TryParse(parts[0], out part1))
+                throw new Exception($"Unable to parse part 1 of \"{partName}\"");
+            if (!int.TryParse(parts[1], out part2))
+                throw new Exception($"Unable to parse part 2 of \"{partName}\"");
+            return true;
+        }
+
+        /// <summary>
+        /// look for 5-6 syntax
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="partName"></param>
+        /// <param name="part1"></param>
+        /// <param name="part2"></param>
+        /// <returns></returns>
+        private bool IsDashedPartLongs(string part, string partName, out int part1, out int part2, bool throwException = true)
+        {
+            // initialize
+            part1 = 0;
+            part2 = 0;
+
+            var parts = part.Split(new[] { '-', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 1)
+                return false;
+            if (parts.Length != 2)
+            {
+                if (throwException)
+                    throw new Exception($"Invalid expression in {partName}");
+                else
+                    return false;
+            }
+
+            // two parts, try to parse
+            if (!int.TryParse(parts[0], out part1))
+            {
+                if (throwException)
+                    throw new Exception($"Unable to parse part 1 of \"{partName}\"");
+                else
+                    return false;
+            }
+            if (!int.TryParse(parts[1], out part2))
+            {
+                if (throwException)
+                    throw new Exception($"Unable to parse part 2 of \"{partName}\"");
+                else
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// look for 5-6 syntax
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="partName"></param>
+        /// <param name="part1"></param>
+        /// <param name="part2"></param>
+        /// <returns></returns>
+        private bool IsDashedPartStrings(string part, string partName, out string part1, out string part2)
+        {
+            // initialize
+            part1 = null;
+            part2 = null;
+
+            var parts = part.Split(new[] { '-', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 1)
+                return false;
+            if (parts.Length != 2)
+                throw new Exception($"Invalid expression in {partName}");
+
+            part1 = parts[0];
+            part2 = parts[1];
+
+            return true;
+        }
+
+        /// <summary>
+        /// take a comma separated list and convert them to a list of longs
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="partName"></param>
+        /// <returns></returns>
+        private List<long> GetListOfLongsFromCommaSeparatedList(string part, string partName)
+        {
+            try
+            {
+                var parts = part.Split(new[] { ',' });
+                return parts
+                    .Select(p => long.Parse(p))
+                    .ToList();
+            }
+            catch
+            {
+                throw new Exception($"Unable to parse numbers of \"{partName}\"");
+            }
+        }
+
+        /// <summary>
+        /// take a comma separated list of strings
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="partName"></param>
+        /// <returns></returns>
+        private List<string> GetListOfStringsFromCommaSeparatedList(string part, string partName)
+        {
+            try
+            {
+                return part
+                    .Split(new[] { ',' })
+                    .ToList();
+            }
+            catch
+            {
+                throw new Exception($"Unable to parse strings of \"{partName}\"");
+            }
+        }
+
+        private readonly string[] monthNames = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedMonthNames
+            .Where(mn => !string.IsNullOrWhiteSpace(mn))
+            .Select(mn => mn.ToUpper())
+            .ToArray();
+
+        private int GetMonthIndexFromName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException();
+            return Array.IndexOf(monthNames, name.ToUpper()) + 1;
+        }
+
+        private readonly string[] dayNames = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames
+            .Where(dn => !string.IsNullOrWhiteSpace(dn))
+            .Select(dn => dn.ToUpper())
+            .ToArray();
+
+        private int GetDayIndexFromName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException();
+            return Array.IndexOf(dayNames, name.ToUpper()) + 1;
         }
 
         #endregion

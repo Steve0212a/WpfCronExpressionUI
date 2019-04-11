@@ -375,7 +375,20 @@ namespace WpfCronExpressionUI
         #endregion
 
         public static readonly DependencyProperty CronExpressionProperty = DependencyProperty.Register(
-            "CronExpression", typeof(string), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(string)));
+            "CronExpression", typeof(string), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(string), CronExpressionChanged));
+
+        private static void CronExpressionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+           // push it to the view model
+           if (d is WpfCronExpressionUIView view)
+           {
+               if (view.Grid.DataContext is ViewModel.ViewModel vm)
+               {
+                   if (vm.CronExpression != view.CronExpression)
+                       vm.CronExpression = view.CronExpression;
+               }
+           }
+        }
 
         public string CronExpression
         {
@@ -437,9 +450,6 @@ namespace WpfCronExpressionUI
             if (Grid.DataContext is ViewModel.ViewModel viewModel)
             {
                 viewModel.PropertyChanged += ViewModel_PropertyChanged;
-                
-                // initialize
-                CronExpression = viewModel.CronExpression;
             }
         }
 
@@ -497,13 +507,6 @@ namespace WpfCronExpressionUI
         private void WpfCronExpressionUIView_OnLoaded(object sender, RoutedEventArgs e)
         {
             SelectFirstVisibleTab();
-
-            // initialize
-            if (Grid.DataContext is ViewModel.ViewModel viewModel)
-            {
-                // initialize
-                CronExpression = viewModel.CronExpression;
-            }
         }
     }
 }

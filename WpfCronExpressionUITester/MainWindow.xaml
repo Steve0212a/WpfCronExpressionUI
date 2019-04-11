@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1500">
     <Window.DataContext>
-        <local:ViewModel />
+        <local:MainWindowViewModel />
     </Window.DataContext>
     <Window.Resources>
         <Style x:Key="TabControlStyle" TargetType="TabControl">
@@ -29,11 +29,11 @@
             TabControlStyle="{DynamicResource TabControlStyle}"
             TabItemStyle="{DynamicResource TabItemStyle}"
             ShowCronExpression="True"
-            ShowYearTab="False"
-            ShowSecondTab="False"
+            ShowYearTab="True"
+            ShowSecondTab="True"
             CronExpression="{Binding Path=CronExpressionFromControl, Mode=TwoWay}"
             />
 
-        <TextBlock Grid.Row="1" Padding="10" MinHeight="10" Text="{Binding CronExpressionFromControl}" Background="Black" Foreground="Red" />
+        <TextBox Grid.Row="1" Padding="10" MinHeight="10" Text="{Binding CronExpressionFromControl, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="Red" HorizontalAlignment="Center" MinWidth="200" />
     </Grid>
 </Window>
