@@ -68,6 +68,15 @@ namespace WpfCronExpressionUI
             set { SetValue(CheckboxStyleProperty, value); }
         }
 
+        public static readonly DependencyProperty ComboboxItemStyleProperty = DependencyProperty.Register(
+            "ComboboxItemStyle", typeof(Style), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(Style)));
+
+        public Style ComboboxItemStyle
+        {
+            get { return (Style) GetValue(ComboboxItemStyleProperty); }
+            set { SetValue(ComboboxItemStyleProperty, value); }
+        }
+
         #endregion
 
         #region Flags
@@ -292,6 +301,15 @@ namespace WpfCronExpressionUI
             set { SetValue(ShowHoursHourRangeProperty, value); }
         }
 
+        public static readonly DependencyProperty MinimumHoursProperty = DependencyProperty.Register(
+            "MinimumHours", typeof(int?), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(int?), OnMinimumTimeChanged));
+        
+        public int? MinimumHours
+        {
+            get { return (int?) GetValue(MinimumHoursProperty); }
+            set { SetValue(MinimumHoursProperty, value); }
+        }
+
         #endregion
 
         #region Minute Flags
@@ -332,6 +350,15 @@ namespace WpfCronExpressionUI
             set { SetValue(ShowMinutesMinuteRangeProperty, value); }
         }
 
+        public static readonly DependencyProperty MinimumMinutesProperty = DependencyProperty.Register(
+            "MinimumMinutes", typeof(int?), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(int?), OnMinimumTimeChanged));
+
+        public int? MinimumMinutes
+        {
+            get { return (int?) GetValue(MinimumMinutesProperty); }
+            set { SetValue(MinimumMinutesProperty, value); }
+        }
+
         #endregion
 
         #region Second Flags
@@ -370,6 +397,15 @@ namespace WpfCronExpressionUI
         {
             get { return (bool)GetValue(ShowSecondsSecondRangeProperty); }
             set { SetValue(ShowSecondsSecondRangeProperty, value); }
+        }
+
+        public static readonly DependencyProperty MinimumSecondsProperty = DependencyProperty.Register(
+            "MinimumSeconds", typeof(int?), typeof(WpfCronExpressionUIView), new PropertyMetadata(default(int?), OnMinimumTimeChanged));
+
+        public int? MinimumSeconds
+        {
+            get { return (int?) GetValue(MinimumSecondsProperty); }
+            set { SetValue(MinimumSecondsProperty, value); }
         }
 
         #endregion
@@ -507,6 +543,17 @@ namespace WpfCronExpressionUI
         private void WpfCronExpressionUIView_OnLoaded(object sender, RoutedEventArgs e)
         {
             SelectFirstVisibleTab();
+        }
+
+        private static void OnMinimumTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WpfCronExpressionUIView view)
+            {
+                if (view.Grid.DataContext is ViewModel.ViewModel viewModel)
+                {
+                    viewModel.UpdateTimeMinimums(view.MinimumSeconds, view.MinimumMinutes, view.MinimumHours);
+                }
+            }
         }
     }
 }

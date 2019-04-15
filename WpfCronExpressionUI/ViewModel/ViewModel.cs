@@ -763,7 +763,9 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        public List<int> EveryXHoursItems => Enumerable.Range(1, 10).ToList();
+        public List<int> EveryXHoursItems => Enumerable.Range(1, 10)
+            .Where(i => (i % (minimumHours ?? 1)) == 0)
+            .ToList();
 
         private bool specificHours;
 
@@ -930,7 +932,9 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        public List<int> EveryXMinutesItems => Enumerable.Range(1, 10).ToList();
+        public List<int> EveryXMinutesItems => Enumerable.Range(1, 59)
+            .Where(i => (i % (minimumMinutes ?? 1)) == 0)
+            .ToList();
 
         private bool specificMinutes;
 
@@ -1084,7 +1088,7 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        private int everyXSecondsSelectedItem = 1;
+        private int everyXSecondsSelectedItem;
 
         public int EveryXSecondsSelectedItem
         {
@@ -1097,7 +1101,9 @@ namespace WpfCronExpressionUI.ViewModel
             }
         }
 
-        public List<int> EveryXSecondsItems => Enumerable.Range(1, 10).ToList();
+        public List<int> EveryXSecondsItems => Enumerable.Range(1, 59)
+            .Where(i => (i % (minimumSeconds ?? 1)) == 0)
+            .ToList();
 
         private bool specificSeconds;
 
@@ -1145,6 +1151,7 @@ namespace WpfCronExpressionUI.ViewModel
             SecondRangeStartSelectedItem = SecondRangeItems.FirstOrDefault();
             SecondRangeEndSelectedItem = SecondRangeItems.FirstOrDefault();
             EveryXSecondsStartInSelectedItem = SecondRangeItems.FirstOrDefault();
+            EveryXSecondsSelectedItem = EveryXSecondsItems.FirstOrDefault();
 
             OnPropertyChanged(nameof(SecondRangeItems));
             OnPropertyChanged(nameof(SecondRangeCheckedItems));
@@ -1771,5 +1778,27 @@ namespace WpfCronExpressionUI.ViewModel
         }
 
         #endregion
+
+        private int? minimumSeconds = null, minimumMinutes = null, minimumHours = null;
+
+        public void UpdateTimeMinimums(int? viewMinimumSeconds, int? viewMinimumMinutes, int? viewMinimumHours)
+        {
+            minimumHours = viewMinimumHours;
+            minimumMinutes = viewMinimumMinutes;
+            minimumSeconds = viewMinimumSeconds;
+
+            // refresh seconds
+            OnPropertyChanged(nameof(EveryXSecondsItems));
+            EveryXSecondsSelectedItem = EveryXSecondsItems.FirstOrDefault();
+
+            // refresh minutes
+            OnPropertyChanged(nameof(EveryXMinutesItems));
+            EveryXMinutesSelectedItem = EveryXMinutesItems.FirstOrDefault();
+
+            // refresh seconds
+            OnPropertyChanged(nameof(EveryXHoursItems));
+            EveryXHoursSelectedItem = EveryXHoursItems.FirstOrDefault();
+
+        }
     }
 }

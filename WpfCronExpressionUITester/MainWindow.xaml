@@ -18,6 +18,10 @@
             <Setter Property="Foreground" Value="Red" />
             <Setter Property="FontSize" Value="18" />
         </Style>
+        <Style x:Key="ComboboxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="MinHeight" Value="80" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,10 +32,14 @@
             x:Name="WpfCronExpressionUiViewInstance"
             TabControlStyle="{DynamicResource TabControlStyle}"
             TabItemStyle="{DynamicResource TabItemStyle}"
+            ComboboxItemStyle="{DynamicResource ComboboxItemStyle}"
             ShowCronExpression="True"
             ShowYearTab="True"
             ShowSecondTab="True"
             CronExpression="{Binding Path=CronExpressionFromControl, Mode=TwoWay}"
+            MinimumSeconds="4"
+            MinimumMinutes="3"
+            MinimumHours="2"
             />
 
         <TextBox Grid.Row="1" Padding="10" MinHeight="10" Text="{Binding CronExpressionFromControl, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="Red" HorizontalAlignment="Center" MinWidth="200" />
