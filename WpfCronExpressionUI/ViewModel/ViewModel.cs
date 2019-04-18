@@ -1259,6 +1259,8 @@ namespace WpfCronExpressionUI.ViewModel
                 if ((parts.Length != 6) && (parts.Length != 7))
                     throw new Exception("Incorrent number of parts in Cron expression");
 
+                // uncheck all check boxes before parsing
+                UncheckAllCheckboxes();
 
                 // parse the parts
                 ParseSecondsPart(parts[0]);
@@ -1277,6 +1279,17 @@ namespace WpfCronExpressionUI.ViewModel
             {
                 ErrorMessage = exc.Message;
             }
+        }
+
+        private void UncheckAllCheckboxes()
+        {
+            YearRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
+            DayOfMonthRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
+            DayOfWeekRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
+            HourRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
+            MinuteRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
+            MonthRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
+            SecondRangeCheckedItems.ForEach(ci => ci.IsChecked = false);
         }
 
         private void ParseSecondsPart(string part)

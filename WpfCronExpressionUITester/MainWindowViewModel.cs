@@ -11,7 +11,7 @@ namespace WpfCronExpressionUITester
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string cronExpressionFromControl = "3 0 0 ? * * *";
+        private string cronExpressionFromControl = "0 0 0/1 ? * SUN,FRI *";
 
         public string CronExpressionFromControl
         {
