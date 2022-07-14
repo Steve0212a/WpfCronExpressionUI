@@ -56,11 +56,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowYearsEveryXYears, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXYearsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXYearsItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Year(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Year(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}"  VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXYearsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
@@ -94,11 +94,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowYearsYearRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every year between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every year between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding YearRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding YearRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding YearRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
@@ -128,11 +128,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowMonthsEveryXMonths, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXMonthsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthsItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Month(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Month(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXMonthsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -165,12 +165,12 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowMonthsMonthRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every month between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every month between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding MonthRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding MonthRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MonthRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -208,11 +208,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowDaysEveryXWeekDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXWeekDaysSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXWeekDaysItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Day(s) starting on" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Day(s) starting on" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXWeekDaysStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -224,16 +224,16 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowDaysEveryXMonthDays, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXMonthDaysSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthDaysItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Day(s) starting on the" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Day(s) starting on the" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXMonthDaysStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayOfMonthRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="of the month." Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="of the month." Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                             </StackPanel>
                         </RadioButton>
 
@@ -295,12 +295,12 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowDaysLastXDayOfMonth, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="On the last" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="On the last" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding LastXDayOfMonthSelectedItem, Mode=TwoWay}" ItemsSource="{Binding DayRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                             </StackPanel>
                         </RadioButton>
 
@@ -311,7 +311,7 @@
                                 <ComboBox SelectedItem="{Binding DaysBeforeEndOfMonthSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMonthDaysItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="day(s) before the end of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="day(s) before the end of the month" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                             </StackPanel>
                         </RadioButton>
                     </Grid>
@@ -338,11 +338,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowHoursEveryXHours, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXHoursSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXHoursItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Hour(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Hour(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXHoursStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -375,12 +375,12 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowHoursHourRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every hour between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every hour between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding HourRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding HourRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding HourRangeItems}" DisplayMemberPath="Description"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
@@ -410,11 +410,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowMinutesEveryXMinutes, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXMinutesSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXMinutesItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Minute(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Minute(s) starting in" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXMinutesStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -447,12 +447,12 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowMinutesMinuteRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every minute between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every minute between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding MinuteRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding MinuteRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding MinuteRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -483,11 +483,11 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowSecondsEveryXSeconds, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXSecondsSelectedItem, Mode=TwoWay}" ItemsSource="{Binding EveryXSecondsItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="Second(s) starting at second" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Second(s) starting at second" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding EveryXSecondsStartInSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
@@ -520,12 +520,12 @@
                                      Style="{Binding RadioButtonStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                      Visibility="{Binding ShowSecondsSecondRange, ElementName=WpfCronExpressionUiViewInstance, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Every second between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="Every second between" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding SecondRangeStartSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
                                           Style="{Binding ComboboxStyle, ElementName=WpfCronExpressionUiViewInstance}" />
-                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" />
+                                <TextBlock Text="and" Margin="5,0" Style="{Binding TextBlockStyle, ElementName=WpfCronExpressionUiViewInstance}" VerticalAlignment="Center" />
                                 <ComboBox SelectedItem="{Binding SecondRangeEndSelectedItem, Mode=TwoWay}" ItemsSource="{Binding SecondRangeItems}"
                                           ItemContainerStyle="{Binding ComboboxItemStyle, ElementName=WpfCronExpressionUiViewInstance}"
                                           DisplayMemberPath="Description"
