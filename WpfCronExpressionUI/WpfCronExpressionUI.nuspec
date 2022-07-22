@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A WPF User control that can be used to create CRON expressions</description>
     <releaseNotes>Initial Release</releaseNotes>
-    <copyright>Copyright 2019</copyright>
+    <copyright>Copyright 2022</copyright>
     <tags>WPF CRON Expression</tags>
   </metadata>
 </package>
